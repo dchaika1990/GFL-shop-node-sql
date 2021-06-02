@@ -1,5 +1,4 @@
 const mysql = require('mysql2');
-
 const {HOST, USER, DATABASE, PASSWORD} = process.env;
 
 class DataBase {

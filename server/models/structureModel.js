@@ -1,14 +1,14 @@
 const DB = require('./DB')
 
 class StructureModel {
-	getAllStructures(callback) {
-		DB.query('SELECT * FROM structure', result => {
+	async getAllStructures(callback) {
+		await DB.query('SELECT * FROM structure', result => {
 			callback(result);
 		})
 	}
 
-	getOneStructure(id, callback) {
-		DB.query('SELECT * FROM structure WHERE id_structure=?', [id], result => {
+	async getOneStructure(id, callback) {
+		await DB.query('SELECT * FROM structure WHERE id_structure=?', [id], result => {
 			callback(result);
 		})
 	}

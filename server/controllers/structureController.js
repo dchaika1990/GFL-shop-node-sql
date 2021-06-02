@@ -1,12 +1,17 @@
 const structureModel = require('../models/structureModel')
+const ApiError = require('../error/ApiError')
 
 class structureController {
-	getAllStructures(req, res){
+	getAllStructures(req, res, next){
 		structureModel.getAllStructures(structures => {
-			res.json(structures)
+			const {success, msg} = structures;
+			if (success) {
+				return res.json(msg)
+			}
+			return next(ApiError.badRequest('Structures not fount'))
 		})
 	}
-	getOneStructure(req, res){
+	getOneStructure(req, res, next){
 		const { id } = req.params;
 		if (!/^\d+$/.test(id)) {
 			return res.status(500).send('Server Error');
@@ -15,10 +20,14 @@ class structureController {
 			const { success, msg } = structure;
 
 			if (!success || msg.length === 0) {
-				return res.status(404).json({message: 'Structure not fount'});
+				return next(ApiError.badRequest('Structure not fount'))
 			}
 
-			res.json(msg[0])
+			try {
+				res.json(msg[0])
+			} catch (e) {
+				res.json({message: e.message})
+			}
 		})
 	}
 }

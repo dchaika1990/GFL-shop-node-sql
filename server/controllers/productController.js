@@ -1,12 +1,18 @@
 const productModel = require('../models/productModel')
+const structureModel = require('../models/structureModel')
+const ApiError = require('../error/ApiError')
 
 class productController {
-	getAllProducts(req, res){
+	getAllProducts(req, res, next){
 		productModel.getAllProducts(products => {
-			res.json(products)
+			const {success, msg} = products;
+			if (success) {
+				return res.json(msg)
+			}
+			return next(ApiError.badRequest('Products not fount'))
 		})
 	}
-	getOneProduct(req, res){
+	getOneProduct(req, res, next){
 		const { id } = req.params;
 		if (!/^\d+$/.test(id)) {
 			return res.status(500).send('Server Error');
@@ -15,10 +21,14 @@ class productController {
 			const { success, msg } = product;
 
 			if (!success || msg.length === 0) {
-				return res.status(404).json({message: 'Product not fount'});
+				return next(ApiError.badRequest('Product not fount'))
 			}
 
-			res.json(msg[0])
+			try {
+				res.json(msg[0])
+			} catch (e) {
+				res.json({message: e.message})
+			}
 		})
 	}
 }

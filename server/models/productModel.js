@@ -1,6 +1,6 @@
 const DB = require('./DB')
 
-class ProductsModel {
+class ProductModel {
 	getAllProducts(callback) {
 		DB.query('SELECT * FROM products', result => {
 			callback(result);
@@ -14,4 +14,4 @@ class ProductsModel {
 	}
 }
 
-module.exports = new ProductsModel();
+module.exports = new ProductModel();

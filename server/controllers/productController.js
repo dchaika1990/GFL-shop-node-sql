@@ -1,8 +1,8 @@
-const productsModel = require('../models/productsModel')
+const productModel = require('../models/productModel')
 
 class productController {
 	getAllProducts(req, res){
-		productsModel.getAllProducts(products => {
+		productModel.getAllProducts(products => {
 			res.json(products)
 		})
 	}
@@ -11,7 +11,7 @@ class productController {
 		if (!/^\d+$/.test(id)) {
 			return res.status(500).send('Server Error');
 		}
-		productsModel.getOneProducts( id,product => {
+		productModel.getOneProducts( id,product => {
 			const { success, msg } = product;
 
 			if (!success || msg.length === 0) {

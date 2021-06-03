@@ -1,5 +1,4 @@
 const productModel = require('../models/productModel')
-const structureModel = require('../models/structureModel')
 const ApiError = require('../error/ApiError')
 
 class productController {

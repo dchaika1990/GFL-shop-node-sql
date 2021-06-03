@@ -1,7 +1,7 @@
 const productModel = require('./productModel');
-const structureModel = require('./structureModel');
+const categoryModel = require('./categoryModel');
 
 module.exports = {
 	productModel,
-	structureModel
+	categoryModel
 }

@@ -1,7 +1,6 @@
 const express = require('express');
 const errorHandler = require('./middleware/ErrorHandlerMiddleware')
 const {PORT} = process.env || 3010;
-
 const app = express();
 
 const routers = require('./routes/index')

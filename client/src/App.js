@@ -1,15 +1,12 @@
 import './App.css';
-import {Col, Container, Row} from "reactstrap";
+import {BrowserRouter} from "react-router-dom";
+import AppRouter from "./components/AppRouter";
 
 function App() {
 	return (
-		<Container>
-			<Row>
-				<Col>
-					<h2>Hello App</h2>
-				</Col>
-			</Row>
-		</Container>
+		<BrowserRouter>
+			<AppRouter />
+		</BrowserRouter>
 	);
 }
 

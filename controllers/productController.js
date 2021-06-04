@@ -3,9 +3,15 @@ const ApiError = require('../error/ApiError')
 
 class productController {
 	getAllProducts(req, res, next){
-		productModel.getAllProducts(products => {
+		const {categoryId} = req.query
+		productModel.getAllProducts(categoryId,products => {
 			const {success, msg} = products;
 			if (success) {
+				if (categoryId) {
+					if (!/^\d+$/.test(categoryId)) {
+						return res.status(500).send('Server Error');
+					}
+				}
 				return res.json(msg)
 			}
 			return next(ApiError.badRequest('Products not fount'))

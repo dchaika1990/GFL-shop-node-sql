@@ -1,20 +1,23 @@
 const DB = require('./DB')
 
 class ProductModel {
-	async getAllProducts(callback) {
-		await DB.query('SELECT * FROM products, structure WHERE products.product_structure=structure.id_structure', result => {
+	async getAllProducts(id = null ,callback) {
+		let sql = '';
+		sql = id
+			? `SELECT P.id_product, P.product_name, P.product_description, P.product_price, S.structure_name, GROUP_CONCAT(I.image_name) as image_name, category.category_name FROM products as P, structure as S, product_gallery as PG, image as I, product_category as PC, category WHERE P.product_structure=S.id_structure and P.id_product=PG.id_product and PG.id_image=I.id_image and P.id_product=PC.id_product and PC.id_category=category.id_category and P.product_avaible='YES' and category.id_category=${id} GROUP BY id_product`
+			: 'SELECT P.id_product, P.product_name, P.product_description, P.product_price, S.structure_name, GROUP_CONCAT(DISTINCT I.image_name) as image_name, GROUP_CONCAT(DISTINCT C.category_name) as category_name FROM products as P, structure as S, product_gallery as PG, image as I, product_category as PC, category as C WHERE P.product_structure=S.id_structure and P.id_product=PG.id_product and PG.id_image=I.id_image and P.id_product=PC.id_product and PC.id_category=C.id_category GROUP BY id_product'
+		// if (id){
+		// 	sql = `SELECT P.id_product, P.product_name, P.product_description, P.product_price, S.structure_name, GROUP_CONCAT(I.image_name) as image_name, category.category_name FROM products as P, structure as S, product_gallery as PG, image as I, product_category as PC, category WHERE P.product_structure=S.id_structure and P.id_product=PG.id_product and PG.id_image=I.id_image and P.id_product=PC.id_product and PC.id_category=category.id_category and P.product_avaible='YES' and category.id_category=${id} GROUP BY id_product`
+		// } else {
+		// 	sql = 'SELECT P.id_product, P.product_name, P.product_description, P.product_price, S.structure_name, GROUP_CONCAT(DISTINCT I.image_name) as image_name, GROUP_CONCAT(DISTINCT C.category_name) as category_name FROM products as P, structure as S, product_gallery as PG, image as I, product_category as PC, category as C WHERE P.product_structure=S.id_structure and P.id_product=PG.id_product and PG.id_image=I.id_image and P.id_product=PC.id_product and PC.id_category=C.id_category GROUP BY id_product'
+		// }
+		await DB.query(sql, result => {
 			callback(result);
 		})
 	}
 
 	async getOneProducts(id, callback) {
-		await DB.query('SELECT * FROM products, structure WHERE id_product=? and products.product_structure=structure.id_structure', [id], result => {
-			callback(result);
-		})
-	}
-
-	async getOneProductOption(id, callback) {
-		await DB.query('SELECT product_options.id_product, product_type.type_name, product_color.color_name, product_size.size_name FROM product_options, product_type, product_color, product_size where id_product=? and product_options.product_type=product_type.id_type and product_options.product_color=product_color.id_color and product_options.product_size=product_size.id_size', [id], result => {
+		await DB.query(`SELECT P.*, S.structure_name, GROUP_CONCAT(DISTINCT I.id_image) as id_image, GROUP_CONCAT(DISTINCT I.image_name) as image_name, GROUP_CONCAT(DISTINCT C.id_category) as id_category, GROUP_CONCAT(DISTINCT C.category_name) as category_name FROM products as P, structure as S, product_gallery as PG, image as I, product_category as PC, category as C WHERE P.product_structure=S.id_structure and P.id_product=PG.id_product and PG.id_image=I.id_image and P.id_product=PC.id_product and PC.id_category=C.id_category and P.id_product=${id} GROUP BY id_product`, [id], result => {
 			callback(result);
 		})
 	}

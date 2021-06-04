@@ -2,9 +2,10 @@ const express = require('express');
 const errorHandler = require('./middleware/ErrorHandlerMiddleware')
 const path = require('path');
 const bodyParser = require('body-parser');
+const cors = require('cors')
 const {PORT} = process.env || 3010;
 const app = express();
-
+app.use(cors())
 const routers = require('./routes/index')
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 

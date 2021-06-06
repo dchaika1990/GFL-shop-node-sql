@@ -1,0 +1,15 @@
+<ul class="categories-filter" *ngIf="!loading && categories.length">
+    <li
+        (click)="renderProducts()"
+        [class.active]="selectedIndex === null"
+    >
+        All
+    </li>
+    <li
+        *ngFor="let category of categories; let i = index"
+        (click)="renderProducts(i, category.id_category)"
+        [class.active]="selectedIndex === i"
+    >
+        {{category.category_name}}
+    </li>
+</ul>

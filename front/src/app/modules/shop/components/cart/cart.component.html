@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="text-center mt-5 mb-3">Cart ({{cartProducts.length}})</h3>
+            <ul class="cart-list">
+                <li *ngFor="let product of cartProducts">
+                    <p class="d-flex">
+                        <span>{{ product.name }}</span> <span class="ml-auto">{{ (product.price * product.count).toFixed(2) }}
+                        $</span>
+                    </p>
+                    <p>
+                        <button
+                                class="btn btn-primary"
+                                (click)="removeProductFromCart(product)"
+                        >-
+                        </button>
+                        <span>
+                            {{product.count}}
+                        </span>
+                        <button
+                                [disabled]="product.available === (product.count) || product.available === 0"
+                                class="btn btn-primary"
+                                (click)="addProductToCart(product)"
+                        >+
+                        </button>
+                    </p>
+                </li>
+                <li *ngIf="cartProducts.length">
+                    <p class="d-flex">
+                        Total Price <span class="ml-auto">{{totalPrice}}$</span>
+                    </p>
+                </li>
+                <li *ngIf="!cartProducts.length">
+                    <p>Cart is empty</p>
+                </li>
+            </ul>
+            <div class="d-flex mt-5">
+                <button
+                        routerLink="/"
+                        class="btn btn-info"
+                >
+                    Continue shopping
+                </button>
+                <button
+                        *ngIf="cartProducts.length"
+                        routerLink="/checkout"
+                        class="btn btn-success ml-auto"
+                >
+                    Proceed to checkout
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

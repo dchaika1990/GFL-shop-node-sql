@@ -1,0 +1,22 @@
+<div class="container" *ngIf="!loading">
+    <div class="row">
+        <div class="col-12 mt-5">
+            <app-filter-category (renderProductsByCategory)="renderProductsByCategory($event)"></app-filter-category>
+        </div>
+        <div class="col-4" *ngFor="let product of products">
+            <div class="card mt-5">
+                <img src="http://localhost:3010/{{product.image_name.split(',')[0]}}" alt="product.product_name">
+                <h5 class="card-header">{{ product.product_name }}</h5>
+                <div class="card-body">
+                    <p class="card-text">{{ product.product_price }}</p>
+                    <p class="card-text">{{ product.product_description }}</p>
+                    <button
+                            class="btn btn-success"
+                            routerLink="/cart"
+                            (click)="addToCart(product)"
+                    >Add to cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

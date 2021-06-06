@@ -1,0 +1,12 @@
+.cart-list{
+   padding-left: 0;
+   list-style: none;
+   li{
+      &:not(:last-child){
+         border-bottom: 1px solid #ccc;
+      }
+      &:not(:first-child){
+         margin-top: 10px;
+      }
+   }
+}

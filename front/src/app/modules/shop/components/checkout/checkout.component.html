@@ -1,0 +1,77 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="mt-5 mb-3">Checkout</h3>
+            <form [formGroup]="loginForm">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        name="firstname"
+                                        placeholder="First Name"
+                                        formControlName="firstname">
+                                <p class="errors"
+                                   *ngIf="loginForm.controls.firstname.status === 'INVALID' && loginForm.controls.firstname.dirty">
+                                    <span>Required field and min length 2</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        name="lastname"
+                                        placeholder="Last Name"
+                                        formControlName="lastname"
+                                >
+                                <p class="errors"
+                                   *ngIf="loginForm.controls.lastname.status === 'INVALID' && loginForm.controls.lastname.dirty">
+                                    <span>Required field and min length 2</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input
+                                        type="number"
+                                        class="form-control"
+                                        name="phone"
+                                        placeholder="Phone"
+                                        formControlName="phone">
+                                <p class="errors"
+                                   *ngIf="loginForm.controls.phone.status === 'INVALID' && loginForm.controls.phone.dirty">
+                                    <span>Required field</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input
+                                        type="email"
+                                        name="email"
+                                        class="form-control"
+                                        placeholder="Email"
+                                        formControlName="email">
+                                <p class="errors"
+                                   *ngIf="loginForm.controls.email.status === 'INVALID' && loginForm.controls.email.dirty">
+                                    <span>Required field, test@test.com</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button
+                        type="submit"
+                        [disabled]="loginForm.status === 'INVALID'"
+                        (click)="submitAction($event)"
+                        routerLink="/thanks"
+                        class="btn btn-primary">Submit
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

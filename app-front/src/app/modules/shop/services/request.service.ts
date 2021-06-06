@@ -3,17 +3,22 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Product} from './product';
 import {Category} from "./category";
+import config from '../../../../config.dev.js'
 
 @Injectable({
     providedIn: 'root'
 })
 export class RequestService {
-    apiUrl = 'http://localhost:3010/api/product';
-    apiUrlCategories = 'http://localhost:3010/api/category';
+    apiUrl = this.proxyServ + 'api/product';
+    apiUrlCategories = this.proxyServ + 'api/category';
     products: Product[] = [];
     categories: Category[] = [];
 
     constructor(private http: HttpClient) {
+    }
+
+    get proxyServ(){
+        return config.proxy
     }
 
     loadProducts() {

@@ -49,8 +49,8 @@ class UserModel{
 					msg: 'User already exists',
 				});
 		});
+
 		let status = await Database.promise().execute('Select id_status from user_status where user_status.status_name="User"')
-		console.log(user_login, user_name, user_email, user_password, user_phone, status[0][0].id_status)
 		Database.query(
 			"INSERT INTO users VALUES (NULL, ?, SHA1(?), ?, ?, ?, ?, '')",
 			[user_login, user_password, user_name, user_phone, user_email, status[0][0].id_status],
@@ -62,16 +62,57 @@ class UserModel{
 		);
 	}
 
-	async isValidToken(token, callback) {
+	async login(username, password, callback) {
+		if (!username)
+			return callback({
+				success: false,
+				msg: 'Username or email is required',
+			});
+
+		if (!password)
+			return callback({
+				success: false,
+				msg: 'Password is required',
+			});
+
 		try {
-			const [userToken] = await Database.promise().execute(
-				'SELECT user_login, user_token FROM users WHERE user_token=? LIMIT 1',
-				[token]
+			const [userInfo] = await Database.promise().execute(
+				'SELECT id_user, user_login, user_email, user_password FROM users WHERE (user_login=? OR user_email=?) AND user_password=SHA1(?) LIMIT 1',
+				[username, username, password]
 			);
 
-			callback(userToken.length !== 0);
+			if (userInfo.length === 0)
+				return callback({success: false, msg: 'User not exists'});
+
+			const {id_user} = userInfo[0];
+
+			// console.log(Buffer.from(test, 'base64').toString('ascii'))
+
+			const [{affectedRows}] = await Database.promise().execute(
+				'UPDATE users SET user_token=? WHERE id_user=? LIMIT 1',
+				[Buffer.from(id_user + '.' + username + '.' + new Date().getTime()).toString('base64'), id_user]
+			);
+
+			if (affectedRows === 0)
+				return callback({
+					success: false,
+					msg: 'Smth went wrong. Please try later.',
+				});
+
+			const [userToken] = await Database.promise().execute(
+				'SELECT user_token FROM users WHERE id_user=? LIMIT 1',
+				[id_user]
+			);
+
+			if (userToken.length === 0)
+				return callback({
+					success: false,
+					msg: 'Smth went wrong. Please try later.',
+				});
+
+			callback({success: true, msg: userToken[0].user_token,});
 		} catch (error) {
-			callback(false);
+			callback({success: false, msg: JSON.stringify(error)});
 		}
 	}
 }

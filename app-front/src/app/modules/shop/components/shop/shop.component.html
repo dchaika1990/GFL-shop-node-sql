@@ -5,7 +5,7 @@
         </div>
         <div class="col-4" *ngFor="let product of products">
             <div class="card mt-5">
-                <img src="http://localhost:3010/{{product.image_name.split(',')[0]}}" alt="product.product_name">
+                <img src="{{proxy + product.image_name.split(',')[0]}}" alt="product.product_name">
                 <h5 class="card-header">{{ product.product_name }}</h5>
                 <div class="card-body">
                     <p class="card-text">{{ product.product_price }}</p>

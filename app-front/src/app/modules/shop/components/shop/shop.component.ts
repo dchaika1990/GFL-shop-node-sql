@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Product} from '../../services/product';
 import {RequestService} from '../../services/request.service';
 import {ApiService} from '../../services/api.service';
@@ -12,6 +12,7 @@ export class ShopComponent implements OnInit {
     products: Product[] = [];
     loading = true;
     cartProducts: Product[] = this.requestService.getCartProducts;
+    proxy: String = this.requestService.proxyServ
 
     constructor(private requestService: RequestService, private apiService: ApiService) {
     }

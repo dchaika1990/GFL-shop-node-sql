@@ -1,6 +1,6 @@
-<div class="container" *ngIf="!loading">
+<div class="container my-5" *ngIf="!loading">
     <div class="row">
-        <div class="col-12 mt-5">
+        <div class="col-12">
             <app-filter-category (renderProductsByCategory)="renderProductsByCategory($event)"></app-filter-category>
         </div>
         <div class="col-4" *ngFor="let product of products">

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "env-cmd -f ./.env.development nodemon ./index.js",
-    "client": "npm run start --prefix client",
+    "client": "npm run start --prefix app-front",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],

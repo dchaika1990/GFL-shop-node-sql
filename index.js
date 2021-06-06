@@ -10,6 +10,7 @@ const routers = require('./routes/index')
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 app.use(urlencodedParser);
+app.use(bodyParser.json())
 app.use(express.static(path.resolve(__dirname, 'static')));
 app.use('/api', routers)
 

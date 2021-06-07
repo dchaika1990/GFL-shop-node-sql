@@ -9,21 +9,25 @@ class UserController {
 			if (!success){
 				return next(ApiError.badRequest(msg))
 			}
-			res.json(msg)
+			userModel.login(user_login,user_password, result => {
+				const {success, msg} = result;
+				if (!success){
+					return next(ApiError.badRequest(msg))
+				}
+				res.json(msg)
+			})
 		})
 	}
 
 	login(req, res, next) {
 		const {user_login, user_password} = req.body;
+		res.cookie('rememberme', '1', { maxAge: 900000, httpOnly: true });
 		userModel.login(user_login,user_password, result => {
 			const {success, msg} = result;
 			if (!success){
 				return next(ApiError.badRequest(msg))
 			}
 			res.json(msg)
-			res.cookie('shopToken', msg, {
-				httpOnly: true,
-			});
 		})
 	}
 }

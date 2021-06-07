@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h3 class="mt-5 mb-3">Login</h3>
+            <form [formGroup]="loginForm">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="firstname"
+                                    placeholder="User Login"
+                                    formControlName="user_login">
+                                <p class="errors"
+                                   *ngIf="loginForm.controls.user_login.status === 'INVALID' && loginForm.controls.user_login.dirty">
+                                    <span>Required field and min length 2</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    name="lastname"
+                                    placeholder="Password"
+                                    formControlName="user_password"
+                                >
+                                <p class="errors"
+                                   *ngIf="loginForm.controls.user_password.status === 'INVALID' && loginForm.controls.user_password.dirty">
+                                    <span>Required field and min length 8</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p>If you do not have an account <button class="btn btn-info" routerLink="/register">Registration</button></p>
+                <button
+                    type="submit"
+                    [disabled]="loginForm.status === 'INVALID'"
+                    (click)="submitAction($event)"
+                    class="btn btn-primary">Submit
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

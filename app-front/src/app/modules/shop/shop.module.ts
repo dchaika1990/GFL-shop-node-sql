@@ -10,14 +10,20 @@ import {HttpClientModule} from '@angular/common/http';
 import {RequestService} from './services/request.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import { FilterCategoryComponent } from './components/filter-category/filter-category.component';
+import {AuthService} from "./services/auth.service";
+import {AuthGuardService} from "./services/auth-guard.service";
+import { LoginComponent } from './components/login/login.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 const routes: Routes = [
     {
         path: '', children: [
             {path: '', component: ShopComponent},
-            {path: 'cart', component: CartComponent},
-            {path: 'checkout', component: CheckoutComponent},
-            {path: 'thanks', component: ThanksComponent},
+            {path: 'login', component: LoginComponent},
+            {path: 'register', component: RegistrationComponent},
+            {path: 'cart', component: CartComponent, canActivate: [AuthGuardService]},
+            {path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuardService]},
+            {path: 'thanks', component: ThanksComponent, canActivate: [AuthGuardService]},
         ]
     }
 ];
@@ -28,7 +34,9 @@ const routes: Routes = [
         CartComponent,
         CheckoutComponent,
         ThanksComponent,
-        FilterCategoryComponent
+        FilterCategoryComponent,
+        LoginComponent,
+        RegistrationComponent
     ],
     imports: [
         CommonModule,
@@ -41,7 +49,9 @@ const routes: Routes = [
         RouterModule
     ],
     providers: [
-        RequestService
+        RequestService,
+        AuthService,
+        AuthGuardService
     ]
 })
 export class ShopModule {}

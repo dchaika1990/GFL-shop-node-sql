@@ -16,5 +16,6 @@
                 </li>
             </ul>
         </div>
+        <div *ngIf="authService.userInfo">Hello {{authService.userInfo[1]}}</div>
     </div>
 </nav>

@@ -7,6 +7,8 @@ export interface ProductSingleInfo {
     structure_name: string;
     category_name: string;
     product_count: number;
+    id_type: number;
+    type_name: string;
 }
 
 export interface ProductSingleOptions {

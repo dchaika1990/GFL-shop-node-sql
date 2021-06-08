@@ -12,9 +12,9 @@
                     <p class="card-text">{{ product.product_description }}</p>
                     <button
                             class="btn btn-success"
-                            routerLink="/cart"
+                            routerLink="/product/{{product.id_product}}"
                             (click)="addToCart(product)"
-                    >Add to cart</button>
+                    >Show product</button>
                 </div>
             </div>
         </div>

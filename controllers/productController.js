@@ -9,7 +9,7 @@ class productController {
 			if (success) {
 				if (categoryId) {
 					if (!/^\d+$/.test(categoryId)) {
-						return res.status(500).send('Server Error');
+						return next(ApiError.internal('Server Error'))
 					}
 				}
 				return res.json(msg)
@@ -18,11 +18,17 @@ class productController {
 		})
 	}
 	getOneProduct(req, res, next){
-		const { id } = req.params;
+		const {id} = req.params;
+		const {type, color} = req.query
+		console.log(req.query);
+		let variants = '';
+		if (type) variants += ` and product_options.product_type=${type} `
+		if (color) variants += ` and product_options.product_color=${color} `
+
 		if (!/^\d+$/.test(id)) {
 			return res.status(500).send('Server Error');
 		}
-		productModel.getOneProducts( id,product => {
+		productModel.getOneProducts( id, variants,product => {
 			const { success, msg } = product;
 
 			if (!success || msg.length === 0) {
@@ -30,26 +36,7 @@ class productController {
 			}
 
 			try {
-				res.json(msg[0])
-			} catch (e) {
-				res.json({message: e.message})
-			}
-		})
-	}
-	getOneProductOption(req, res, next){
-		const { id } = req.params;
-		if (!/^\d+$/.test(id)) {
-			return res.status(500).send('Server Error');
-		}
-		productModel.getOneProductOption( id,product => {
-			const { success, msg } = product;
-
-			if (!success || msg.length === 0) {
-				return next(ApiError.badRequest('Product not fount'))
-			}
-
-			try {
-				res.json(msg[0])
+				res.json(msg)
 			} catch (e) {
 				res.json({message: e.message})
 			}

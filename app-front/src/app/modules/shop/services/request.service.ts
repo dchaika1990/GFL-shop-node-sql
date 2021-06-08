@@ -11,8 +11,10 @@ import config from '../../../../config.dev.js'
 export class RequestService {
     apiUrl = this.proxyServ + 'api/product';
     apiUrlCategories = this.proxyServ + 'api/category';
+    apiUrlProduct = this.proxyServ + 'api/product';
     products: Product[] = [];
     categories: Category[] = [];
+    product: {} = {}
 
     constructor(private http: HttpClient) {
     }
@@ -23,6 +25,20 @@ export class RequestService {
 
     loadProducts() {
         const request = this.http.get(this.apiUrl, {observe: 'response'});
+        return new Observable(observer => {
+            request.subscribe(response => {
+                this.products = (response.body as Product[]);
+                observer.next(response.body);
+                observer.complete();
+            });
+        });
+    }
+
+    loadSingleProduct(id, type: String = '', color: String = '') {
+        let query: string = '?';
+        if (type) query += `type=${type}&`;
+        if (color) query += `color=${color}&`;
+        const request = this.http.get(this.apiUrlProduct + '/' + id + query , {observe: 'response'});
         return new Observable(observer => {
             request.subscribe(response => {
                 this.products = (response.body as Product[]);

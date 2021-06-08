@@ -46,7 +46,7 @@ export class AuthService {
             (res) => {
                 this.setCookie('token', res, {});
                 this.isAuth = true;
-                this.router.navigate(['cart'])
+                this.router.navigate([''])
             },
             (err) => {
                 console.log(err.error.message)
@@ -60,7 +60,7 @@ export class AuthService {
             (res) => {
                 this.setCookie('token', res, {});
                 this.isAuth = true;
-                this.router.navigate(['cart'])
+                this.router.navigate([''])
             },
             (err) => {
                 this.errorMessage = err.error.message;

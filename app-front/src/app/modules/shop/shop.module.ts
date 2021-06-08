@@ -14,11 +14,13 @@ import {AuthService} from "./services/auth.service";
 import {AuthGuardService} from "./services/auth-guard.service";
 import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
+import { ProductComponent } from './components/product/product.component';
 
 const routes: Routes = [
     {
         path: '', children: [
             {path: '', component: ShopComponent},
+            {path: 'product/:id', component: ProductComponent},
             {path: 'login', component: LoginComponent},
             {path: 'register', component: RegistrationComponent},
             {path: 'cart', component: CartComponent, canActivate: [AuthGuardService]},
@@ -36,7 +38,8 @@ const routes: Routes = [
         ThanksComponent,
         FilterCategoryComponent,
         LoginComponent,
-        RegistrationComponent
+        RegistrationComponent,
+        ProductComponent
     ],
     imports: [
         CommonModule,

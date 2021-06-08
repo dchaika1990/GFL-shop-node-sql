@@ -11,6 +11,7 @@ import {AuthService} from "../../services/auth.service";
 export class LoginComponent implements OnInit {
 
     loginForm: FormGroup;
+    errorMessage: any = '';
 
     constructor(private requestService: RequestService, private authService: AuthService) {
         this.loginForm = new FormGroup({
@@ -25,7 +26,6 @@ export class LoginComponent implements OnInit {
     submitAction(event: any) {
         event.preventDefault();
         this.authService.sendLoginRequest(this.loginForm.value)
-        // this.requestService.setCartProducts(JSON.stringify([]));
     }
 
 }

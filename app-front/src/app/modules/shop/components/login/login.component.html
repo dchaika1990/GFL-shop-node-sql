@@ -37,6 +37,7 @@
                     </div>
                 </div>
                 <p>If you do not have an account <button class="btn btn-info" routerLink="/register">Registration</button></p>
+                {{errorMessage}}
                 <button
                     type="submit"
                     [disabled]="loginForm.status === 'INVALID'"

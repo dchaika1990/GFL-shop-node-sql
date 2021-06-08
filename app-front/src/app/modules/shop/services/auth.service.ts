@@ -9,39 +9,77 @@ import {Router} from "@angular/router";
 export class AuthService {
     loginUrl = this.proxyServ + 'api/auth/login';
     registerUrl = this.proxyServ + 'api/auth/registration';
+    checkUrl = this.proxyServ + 'api/auth/check';
+    isAuth: any = false;
+    errorMessage: any = '';
 
-    constructor(private http: HttpClient, public router: Router) {}
+    constructor(private http: HttpClient, public router: Router) {
+    }
 
-    get userInfo(){
+    get userInfo() {
         return this.getCookie('token') ? window.atob(this.getCookie('token')).split('.') : ''
     }
 
-    sendLoginRequest(formData){
+    get userToken() {
+        return this.getCookie('token') ? this.getCookie('token') : ''
+    }
+
+    get errorMsg() {
+        return this.errorMessage
+    }
+
+    setError(err){
+        this.errorMessage = err
+    }
+
+    checkToken() {
+        this.http.post(this.checkUrl, {'user_token': this.userToken}).subscribe(
+            (res) => {
+                this.isAuth = res;
+            },
+            (err) => console.log(err)
+        )
+    }
+
+    sendLoginRequest(formData) {
         this.http.post(this.loginUrl, formData).subscribe(
             (res) => {
                 this.setCookie('token', res, {});
+                this.isAuth = true;
                 this.router.navigate(['cart'])
             },
-            (err) => console.log(err)
-        )
+            (err) => {
+                console.log(err.error.message)
+                return err.error.message;
+            }
+        );
     }
 
-    sendRegisterRequest(formData){
+    sendRegisterRequest(formData) {
         this.http.post(this.registerUrl, formData).subscribe(
             (res) => {
                 this.setCookie('token', res, {});
+                this.isAuth = true;
                 this.router.navigate(['cart'])
             },
-            (err) => console.log(err)
+            (err) => {
+                this.errorMessage = err.error.message;
+            }
         )
     }
 
-    get proxyServ(){
+    logOut(){
+        this.deleteCookie('token');
+        this.isAuth = false;
+        this.router.navigate([''])
+    }
+
+    get proxyServ() {
         return config.proxy
     }
 
-    public isAuthenticated(): Boolean{
-        return !!this.getCookie('token')
+    public isAuthenticated(): Boolean {
+        return this.isAuth
     }
 
     getCookie(name) {
@@ -78,4 +116,9 @@ export class AuthService {
         }
         document.cookie = updatedCookie
     }
+
+    deleteCookie(name) {
+        this.setCookie(name, '', {});
+    }
+
 }

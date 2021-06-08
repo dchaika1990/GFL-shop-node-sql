@@ -17,5 +17,12 @@
             </ul>
         </div>
         <div *ngIf="authService.userInfo">Hello {{authService.userInfo[1]}}</div>
+        <button
+            *ngIf="authService.userInfo"
+            class="btn btn-info ml-2"
+            (click)="logout()"
+        >
+            Logout
+        </button>
     </div>
 </nav>

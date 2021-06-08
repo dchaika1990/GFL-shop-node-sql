@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Product} from '../../services/product';
 import {RequestService} from '../../services/request.service';
 import {ApiService} from '../../services/api.service';
+import {AuthService} from "../../services/auth.service";
 
 @Component({
     selector: 'app-shop',
@@ -14,7 +15,7 @@ export class ShopComponent implements OnInit {
     cartProducts: Product[] = this.requestService.getCartProducts;
     proxy: String = this.requestService.proxyServ
 
-    constructor(private requestService: RequestService, private apiService: ApiService) {
+    constructor(private requestService: RequestService, private apiService: ApiService, private authService: AuthService) {
     }
 
     ngOnInit(): void {
@@ -22,6 +23,7 @@ export class ShopComponent implements OnInit {
             this.products = (products as Product[]);
             this.loading = false;
         });
+        this.authService.checkToken()
     }
 
     renderProductsByCategory(id: String){

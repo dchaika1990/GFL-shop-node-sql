@@ -86,8 +86,6 @@ class UserModel{
 
 			const {id_user} = userInfo[0];
 
-			// console.log(Buffer.from(test, 'base64').toString('ascii'))
-
 			const [{affectedRows}] = await Database.promise().execute(
 				'UPDATE users SET user_token=? WHERE id_user=? LIMIT 1',
 				[Buffer.from(id_user + '.' + username + '.' + new Date().getTime()).toString('base64'), id_user]
@@ -113,6 +111,19 @@ class UserModel{
 			callback({success: true, msg: userToken[0].user_token,});
 		} catch (error) {
 			callback({success: false, msg: JSON.stringify(error)});
+		}
+	}
+
+	async isValidToken(user_token, callback) {
+		try {
+			const [userToken] = await Database.promise().execute(
+				'SELECT user_login, user_token FROM users WHERE user_token=? LIMIT 1',
+				[user_token]
+			);
+
+			callback(userToken.length !== 0);
+		} catch (error) {
+			callback(false);
 		}
 	}
 }

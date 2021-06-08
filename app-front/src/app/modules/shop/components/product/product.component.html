@@ -1,0 +1,54 @@
+<div class="container my-5" *ngIf="!loading">
+    <div class="row">
+        <div class="col-lg-4">
+            <img src="{{proxy + productInfo['image_name'].split(',')[0]}}" alt="product.product_name">
+        </div>
+        <div class="col-lg-8">
+            <h3>{{productInfo['product_name']}}</h3>
+            <p>{{productInfo['product_description']}}</p>
+            <div class="meta">
+                <p>
+                    Category: {{productInfo['category_name']}}
+                </p>
+                <p>
+                    structure: {{productInfo['structure_name']}}
+                </p>
+            </div>
+            <div>
+                <h4>Types</h4>
+                <ul>
+                    <li
+                        *ngFor="let type of productOptions['id_type'].split(','); let i = index"
+                        [attr.data-id_type]="type"
+                        (click)="checkOption($event)"
+                        [class.active]="type === id_type"
+                    >
+                        {{productOptions['type_name'].split(',')[i]}}
+                    </li>
+                </ul>
+                <h4>Colors</h4>
+                <ul>
+                    <li
+                        *ngFor="let color of productOptions['id_color'].split(','); let i = index"
+                        [attr.data-id_color]="color"
+                        (click)="checkOption($event)"
+                        [class.active]="color === id_color"
+                    >
+                        {{productOptions['color_name'].split(',')[i]}}
+                    </li>
+                </ul>
+                <h4>Size</h4>
+                <ul>
+                    <li
+                        *ngFor="let size of productOptions['id_size'].split(','); let i = index"
+                        [attr.data-id_size]="size"
+                        (click)="checkOption($event)"
+                        [class.active]="size === id_size"
+                    >
+                        {{productOptions['size_name'].split(',')[i]}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

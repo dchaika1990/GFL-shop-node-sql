@@ -19,11 +19,12 @@ class productController {
 	}
 	getOneProduct(req, res, next){
 		const {id} = req.params;
-		const {type, color} = req.query
+		const {type, color, size} = req.query
 		console.log(req.query);
 		let variants = '';
 		if (type) variants += ` and product_options.product_type=${type} `
 		if (color) variants += ` and product_options.product_color=${color} `
+		if (size) variants += ` and product_options.product_size=${size} `
 
 		if (!/^\d+$/.test(id)) {
 			return res.status(500).send('Server Error');

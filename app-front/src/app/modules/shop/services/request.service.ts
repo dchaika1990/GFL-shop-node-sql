@@ -34,10 +34,11 @@ export class RequestService {
         });
     }
 
-    loadSingleProduct(id, type: String = '', color: String = '') {
+    loadSingleProduct(id, type: String = '', color: String = '', size: String = '') {
         let query: string = '?';
         if (type) query += `type=${type}&`;
         if (color) query += `color=${color}&`;
+        if (size) query += `size=${size}`;
         const request = this.http.get(this.apiUrlProduct + '/' + id + query , {observe: 'response'});
         return new Observable(observer => {
             request.subscribe(response => {

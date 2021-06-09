@@ -12,7 +12,7 @@ import {AuthService} from "../../services/auth.service";
 export class ShopComponent implements OnInit {
     products: Product[] = [];
     loading = true;
-    cartProducts: Product[] = this.requestService.getCartProducts;
+    cartProducts: Product[] = [];
     proxy: String = this.requestService.proxyServ
 
     constructor(private requestService: RequestService, private apiService: ApiService, private authService: AuthService) {
@@ -23,7 +23,6 @@ export class ShopComponent implements OnInit {
             this.products = (products as Product[]);
             this.loading = false;
         });
-        this.authService.checkToken()
     }
 
     renderProductsByCategory(id: String){
@@ -40,7 +39,7 @@ export class ShopComponent implements OnInit {
         }
     }
 
-    addToCart(product: Product) {
-        this.apiService.addProduct(product, this.cartProducts, this.products);
-    }
+    // addToCart(product: Product) {
+    //     this.apiService.addProduct(product, this.cartProducts, this.products);
+    // }
 }

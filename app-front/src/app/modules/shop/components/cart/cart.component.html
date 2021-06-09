@@ -5,22 +5,21 @@
             <ul class="cart-list">
                 <li *ngFor="let product of cartProducts">
                     <p class="d-flex">
-                        <span>{{ product.name }}</span> <span class="ml-auto">{{ (product.price * product.count).toFixed(2) }}
+                        <span>{{ product.product_name }}</span> <span class="ml-auto">{{ (product.product_price * product.product_count).toFixed(2) }}
                         $</span>
                     </p>
                     <p>
                         <button
                                 class="btn btn-primary"
-                                (click)="removeProductFromCart(product)"
+
                         >-
                         </button>
                         <span>
-                            {{product.count}}
+                            {{product.product_count}}
                         </span>
                         <button
-                                [disabled]="product.available === (product.count) || product.available === 0"
+                                [disabled]="product.available === (product.product_count) || product.available === 0"
                                 class="btn btn-primary"
-                                (click)="addProductToCart(product)"
                         >+
                         </button>
                     </p>

@@ -24,6 +24,16 @@ class ProductModel {
 		}
 	}
 
+	// async getCart(id, callback){
+	// 	DB.query('select DISTINCT cart.id_cart, cart.id_user, cart.id_product, products.product_name ,product_type.type_name, product_color.color_name, product_color.color_code, product_size.size_name from cart, product_options, product_type, product_color, product_size, products where cart.id_options=product_options.id_options and product_options.product_type=product_type.id_type and product_options.product_color=product_color.id_color and product_options.product_size=product_size.id_size and cart.id_product=products.id_product and cart.id_user=?',
+	// 		[id],
+	// 		result=> {
+	// 			const {success, msg} = result;
+	// 			if (!success) return callback(msg);
+	// 			return callback(result);
+	// 		})
+	// }
+
 	async addToCart(id_user, id_product, id_options, product_count, callback) {
 
 		this.isExistProduct(id_user, id_options, product_count_before => {

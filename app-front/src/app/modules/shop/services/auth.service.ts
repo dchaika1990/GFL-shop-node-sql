@@ -32,13 +32,12 @@ export class AuthService {
         this.errorMessage = err
     }
 
+    setAuth(data){
+        return this.isAuth = data
+    }
+
     checkToken() {
-        this.http.post(this.checkUrl, {'user_token': this.userToken}).subscribe(
-            (res) => {
-                this.isAuth = res;
-            },
-            (err) => console.log(err)
-        )
+        return this.http.post(this.checkUrl, {'user_token': this.userToken})
     }
 
     sendLoginRequest(formData) {

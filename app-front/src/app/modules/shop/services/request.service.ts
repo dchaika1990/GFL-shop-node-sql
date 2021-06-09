@@ -3,7 +3,9 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Product} from './product';
 import {Category} from "./category";
+import {CartItem} from "./cartItem";
 import config from '../../../../config.dev.js'
+import {AuthService} from "./auth.service";
 
 @Injectable({
     providedIn: 'root'
@@ -12,12 +14,14 @@ export class RequestService {
     apiUrl = this.proxyServ + 'api/product';
     apiUrlCategories = this.proxyServ + 'api/category';
     apiUrlProduct = this.proxyServ + 'api/product';
-    apiUrlCart = this.proxyServ + 'api/product/cart';
+    apiUrlCartAdd = this.proxyServ + 'api/cart/add';
+    apiUrlCartGet = this.proxyServ + 'api/cart/get';
     products: Product[] = [];
     categories: Category[] = [];
+    cartProducts: CartItem[] = [];
     product: {} = {}
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private authService: AuthService) {
     }
 
     get proxyServ(){
@@ -73,11 +77,18 @@ export class RequestService {
     }
 
     setProductToCart(options) {
-        return this.http.post(this.apiUrlCart, options)
+        return this.http.post(this.apiUrlCartAdd, options)
     }
 
-    get getCartProducts() {
-        return JSON.parse(localStorage.getItem('cartProducts') as string) || [];
+    loadCartProducts(){
+        const request = this.http.get(this.apiUrlCartGet + '?token=' + this.authService.userToken, {observe: 'response'});
+        return new Observable(observer => {
+            request.subscribe(response => {
+                this.cartProducts = (response.body as CartItem[]);
+                observer.next(response.body);
+                observer.complete();
+            });
+        });
     }
 
     setCartProducts(item: any) {

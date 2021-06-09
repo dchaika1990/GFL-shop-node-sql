@@ -44,22 +44,24 @@ class productController {
 	}
 
 	addToCart(req, res, next){
-		const {method} = req;
-		if (method === 'POST') {
-			const {id_user, id_product, id_options, product_count} = req.body
-			productModel.addToCart(id_user, id_product, id_options, product_count, callback => {
-				const { success, msg } = callback;
-				if (!success || msg.length === 0) {
-					return next(ApiError.badRequest('Something went wrong'))
-				}
-				try {
-					res.json(msg)
-				} catch (e) {
-					res.json({message: e.message})
-				}
-			})
-		}
+		const {id_user, id_product, id_options, product_count} = req.body
+		productModel.addToCart(id_user, id_product, id_options, product_count, callback => {
+			const { success, msg } = callback;
+			if (!success || msg.length === 0) {
+				return next(ApiError.badRequest('Something went wrong'))
+			}
+			try {
+				res.json(msg)
+			} catch (e) {
+				res.json({message: e.message})
+			}
+		})
+	}
 
+	getCartInfo(req, res, next) {
+		const {token} = req.query
+		// productModel.getCart()
+		console.log(11111)
 	}
 }
 

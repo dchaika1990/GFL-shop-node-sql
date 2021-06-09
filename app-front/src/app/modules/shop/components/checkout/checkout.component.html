@@ -1,77 +1,146 @@
-<div class="container">
+<div class="container my-5">
     <div class="row">
-        <div class="col-12">
-            <h3 class="mt-5 mb-3">Checkout</h3>
-            <form [formGroup]="loginForm">
+        <div class="col-lg-8">
+            <h2 class="mb-3">Checkout</h2>
+            <form [formGroup]="checkoutForm">
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-12">
                             <div class="form-group">
+                                <label for="deliveryAddress">Country</label>
                                 <input
-                                        type="text"
-                                        class="form-control"
-                                        name="firstname"
-                                        placeholder="First Name"
-                                        formControlName="firstname">
+                                    type="text"
+                                    class="form-control"
+                                    name="country"
+                                    id="country"
+                                    placeholder="Country"
+                                    formControlName="country">
                                 <p class="errors"
-                                   *ngIf="loginForm.controls.firstname.status === 'INVALID' && loginForm.controls.firstname.dirty">
-                                    <span>Required field and min length 2</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input
-                                        type="text"
-                                        class="form-control"
-                                        name="lastname"
-                                        placeholder="Last Name"
-                                        formControlName="lastname"
-                                >
-                                <p class="errors"
-                                   *ngIf="loginForm.controls.lastname.status === 'INVALID' && loginForm.controls.lastname.dirty">
-                                    <span>Required field and min length 2</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input
-                                        type="number"
-                                        class="form-control"
-                                        name="phone"
-                                        placeholder="Phone"
-                                        formControlName="phone">
-                                <p class="errors"
-                                   *ngIf="loginForm.controls.phone.status === 'INVALID' && loginForm.controls.phone.dirty">
+                                   *ngIf="checkoutForm.controls.country.status === 'INVALID' && checkoutForm.controls.country.dirty">
                                     <span>Required field</span>
                                 </p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-12">
                             <div class="form-group">
+                                <label for="deliveryAddress">City</label>
                                 <input
-                                        type="email"
-                                        name="email"
-                                        class="form-control"
-                                        placeholder="Email"
-                                        formControlName="email">
+                                    type="text"
+                                    class="form-control"
+                                    name="city"
+                                    id="city"
+                                    placeholder="City"
+                                    formControlName="city">
                                 <p class="errors"
-                                   *ngIf="loginForm.controls.email.status === 'INVALID' && loginForm.controls.email.dirty">
-                                    <span>Required field, test@test.com</span>
+                                   *ngIf="checkoutForm.controls.city.status === 'INVALID' && checkoutForm.controls.city.dirty">
+                                    <span>Required field</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="deliveryAddress">State</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="state"
+                                    id="state"
+                                    placeholder="State"
+                                    formControlName="state">
+                                <p class="errors"
+                                   *ngIf="checkoutForm.controls.state.status === 'INVALID' && checkoutForm.controls.state.dirty">
+                                    <span>Required field</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="deliveryAddress">Delivery Address</label>
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        name="deliveryAddress"
+                                        id="deliveryAddress"
+                                        placeholder="Delivery Address"
+                                        formControlName="deliveryAddress">
+                                <p class="errors"
+                                   *ngIf="checkoutForm.controls.deliveryAddress.status === 'INVALID' && checkoutForm.controls.deliveryAddress.dirty">
+                                    <span>Required field</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="deliveryAddress">Postcode</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="postcode"
+                                    id="postcode"
+                                    placeholder="Postcode"
+                                    formControlName="postcode">
+                                <p class="errors"
+                                   *ngIf="checkoutForm.controls.postcode.status === 'INVALID' && checkoutForm.controls.postcode.dirty">
+                                    <span>Required field</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="payment_method">Payment Method</label>
+                                <select class="form-control" id="payment_method" formControlName="payment_method">
+                                    <option *ngFor="let method of payment_method" [ngValue]="method.id">
+                                        {{ method.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="payment_method">Delivery Method</label>
+                                <select class="form-control" id="delivery_method" formControlName="delivery_method">
+                                    <option *ngFor="let method of delivery_method" [ngValue]="method.id">
+                                        {{ method.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="comments">Comments</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="comments"
+                                    id="comments"
+                                    placeholder="Comments"
+                                    formControlName="comments">
+                                <p class="errors"
+                                   *ngIf="checkoutForm.controls.comments.status === 'INVALID' && checkoutForm.controls.comments.dirty">
+                                    <span>Required field</span>
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <button
-                        type="submit"
-                        [disabled]="loginForm.status === 'INVALID'"
-                        (click)="submitAction($event)"
-                        routerLink="/thanks"
-                        class="btn btn-primary">Submit
-                </button>
             </form>
+        </div>
+        <div class="col-lg-4">
+            <h2 class="mb-3">Info</h2>
+            <ul class="info">
+                <li *ngFor="let option of price_option">
+                    {{option.name}}<span class="mx-2">x</span>{{option.count}} <span class="ml-auto">{{option.sum}}$</span>
+                </li>
+                <li>Total price: <span class="ml-auto">{{totalPrice}}$</span></li>
+            </ul>
+            <button
+                type="submit"
+                [disabled]="checkoutForm.status === 'INVALID'"
+                (click)="submitAction($event)"
+                routerLink="/thanks"
+                class="btn btn-primary">
+                Place order
+            </button>
         </div>
     </div>
 </div>

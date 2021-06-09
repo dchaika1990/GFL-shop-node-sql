@@ -6,6 +6,7 @@ import {Category} from "./category";
 import {CartItem} from "./cartItem";
 import config from '../../../../config.dev.js'
 import {AuthService} from "./auth.service";
+import {Method} from "./method";
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +17,7 @@ export class RequestService {
     apiUrlProduct = this.proxyServ + 'api/product';
     apiUrlCartAdd = this.proxyServ + 'api/cart/add';
     apiUrlCartGet = this.proxyServ + 'api/cart/get';
+    apiUrlInfoForCheckout = this.proxyServ + 'api/order/checkout';
     products: Product[] = [];
     categories: Category[] = [];
     cartProducts: CartItem[] = [];
@@ -85,6 +87,16 @@ export class RequestService {
         return new Observable(observer => {
             request.subscribe(response => {
                 this.cartProducts = (response.body as CartItem[]);
+                observer.next(response.body);
+                observer.complete();
+            });
+        });
+    }
+
+    loadMethods(){
+        const request = this.http.get(this.apiUrlInfoForCheckout  + '?token=' + this.authService.userToken, {observe: 'response'});
+        return new Observable(observer => {
+            request.subscribe(response => {
                 observer.next(response.body);
                 observer.complete();
             });

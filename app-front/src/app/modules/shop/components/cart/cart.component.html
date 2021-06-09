@@ -3,7 +3,7 @@
         <div class="col-12">
             <h3 class="text-center mt-5 mb-3">Cart ({{cartProducts.length}})</h3>
             <ul class="cart-list">
-                <li *ngFor="let product of cartProducts">
+                <li *ngFor="let product of cartProducts; let i = index">
                     <p class="d-flex">
                         <span>{{ product.product_name }}</span> <span class="ml-auto">{{ (product.product_price * product.product_count).toFixed(2) }}
                         $</span>
@@ -11,7 +11,7 @@
                     <p>
                         <button
                                 class="btn btn-primary"
-
+                                (click)="removeProductFromCart(i)"
                         >-
                         </button>
                         <span>
@@ -20,6 +20,7 @@
                         <button
                                 [disabled]="product.available === (product.product_count) || product.available === 0"
                                 class="btn btn-primary"
+                                (click)="addProductToCart(i)"
                         >+
                         </button>
                     </p>

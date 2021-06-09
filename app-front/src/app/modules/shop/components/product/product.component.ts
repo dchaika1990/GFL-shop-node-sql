@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../../services/request.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductSingleInfo, ProductSingleOptions} from "../../services/productSingle";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
     selector: 'app-product',
@@ -17,8 +18,10 @@ export class ProductComponent implements OnInit {
     id_type: String = '';
     id_color: String = '';
     id_size: String = '';
+    product_count: number = 0;
 
-    constructor(private requestService: RequestService, private router: Router, private activeRoute: ActivatedRoute) {
+
+    constructor(private requestService: RequestService, private authService: AuthService,private router: Router, private activeRoute: ActivatedRoute) {
     }
 
     ngOnInit(): void {
@@ -42,6 +45,7 @@ export class ProductComponent implements OnInit {
                 this.productOptions['size_name'] = product['options']['size_name'];
                 this.productOptions['id_color'] = product['options']['id_color'];
                 this.productOptions['color_name'] = product['options']['color_name'];
+                this.productOptions['color_code'] = product['options']['color_code'];
                 this.loading = false;
             });
         }
@@ -57,9 +61,24 @@ export class ProductComponent implements OnInit {
         if (elem.getAttribute('data-id_size')){
             this.id_size = event.target.getAttribute('data-id_size')
             this.requestService.loadSingleProduct(this.id, this.id_type, this.id_color, this.id_size).subscribe((product) => {
-                console.log(product['options'])
+                this.productOptions['id_options'] = product['options']['id_options'];
                 this.loading = false;
             });
         }
+    }
+
+    addToCart(){
+        const options = {
+            'id_user': this.authService.userInfo[0],
+            'id_product': this.id,
+            'id_options': this.productOptions['id_options'],
+            'product_count': this.product_count
+        }
+        this.requestService.setProductToCart(options).subscribe(
+            (res) =>{
+                this.router.navigate(['cart'])
+            },
+            (error) =>{console.log('error', error)}
+        )
     }
 }

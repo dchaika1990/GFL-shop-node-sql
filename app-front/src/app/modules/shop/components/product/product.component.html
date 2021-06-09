@@ -6,48 +6,76 @@
         <div class="col-lg-8">
             <h3>{{productInfo['product_name']}}</h3>
             <p>{{productInfo['product_description']}}</p>
+            <hr>
             <div class="meta">
                 <p>
                     Category: {{productInfo['category_name']}}
                 </p>
                 <p>
-                    structure: {{productInfo['structure_name']}}
+                    Structure: {{productInfo['structure_name']}}
+                </p>
+                <p>
+                    Available: {{productInfo['product_count']}}
                 </p>
             </div>
-            <div>
-                <h4>Types</h4>
-                <ul>
-                    <li
-                        *ngFor="let type of productOptions['id_type'].split(','); let i = index"
-                        [attr.data-id_type]="type"
-                        (click)="checkOption($event)"
-                        [class.active]="type === id_type"
-                    >
-                        {{productOptions['type_name'].split(',')[i]}}
-                    </li>
-                </ul>
-                <h4>Colors</h4>
-                <ul>
-                    <li
-                        *ngFor="let color of productOptions['id_color'].split(','); let i = index"
-                        [attr.data-id_color]="color"
-                        (click)="checkOption($event)"
-                        [class.active]="color === id_color"
-                    >
-                        {{productOptions['color_name'].split(',')[i]}}
-                    </li>
-                </ul>
-                <h4>Size</h4>
-                <ul>
-                    <li
-                        *ngFor="let size of productOptions['id_size'].split(','); let i = index"
-                        [attr.data-id_size]="size"
-                        (click)="checkOption($event)"
-                        [class.active]="size === id_size"
-                    >
-                        {{productOptions['size_name'].split(',')[i]}}
-                    </li>
-                </ul>
+            <hr>
+            <div class="meta-options">
+                <div *ngIf="productOptions['id_type']">
+                    <h4>Types</h4>
+                    <ul>
+                        <li
+                            *ngFor="let type of productOptions['id_type'].split(','); let i = index"
+                            [attr.data-id_type]="type"
+                            (click)="checkOption($event)"
+                            [class.active]="type === id_type"
+                        >
+                            {{productOptions['type_name'].split(',')[i]}}
+                        </li>
+                    </ul>
+                </div>
+                <div *ngIf="productOptions['id_color']">
+                    <h4>Colors</h4>
+                    <ul class="meta-colors">
+                        <li
+                            *ngFor="let color of productOptions['id_color'].split(','); let i = index"
+                            [attr.data-id_color]="color"
+                            (click)="checkOption($event)"
+                            [class.active]="color === id_color"
+                            style="background-color: {{productOptions['color_code'].split(',')[i]}}"
+                        >
+                            {{productOptions['color_name'].split(',')[i]}}
+                        </li>
+                    </ul>
+                </div>
+                <div *ngIf="productOptions['id_size']">
+                    <h4>Size</h4>
+                    <ul>
+                        <li
+                            *ngFor="let size of productOptions['id_size'].split(','); let i = index"
+                            [attr.data-id_size]="size"
+                            (click)="checkOption($event)"
+                            [class.active]="size === id_size"
+                        >
+                            {{productOptions['size_name'].split(',')[i]}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="price mt-3">Price: {{productInfo['product_price']}}$</p>
+            <div class="d-flex align-items-center">
+                <input
+                    class="form-control mr-3 number-product"
+                    type="number"
+                    [(ngModel)]="product_count"
+                >
+                <button
+                    class="btn btn-success"
+                    (click)="addToCart()"
+                    [disabled]="!id_type || !id_color || !id_size || (product_count < 1)"
+                >
+                    Add to cart
+                </button>
             </div>
         </div>
     </div>

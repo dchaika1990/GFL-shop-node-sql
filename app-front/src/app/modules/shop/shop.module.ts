@@ -8,13 +8,13 @@ import {ThanksComponent} from './components/thanks/thanks.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientModule} from '@angular/common/http';
 import {RequestService} from './services/request.service';
-import {ReactiveFormsModule} from '@angular/forms';
-import { FilterCategoryComponent } from './components/filter-category/filter-category.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FilterCategoryComponent} from './components/filter-category/filter-category.component';
 import {AuthService} from "./services/auth.service";
 import {AuthGuardService} from "./services/auth-guard.service";
-import { LoginComponent } from './components/login/login.component';
-import { RegistrationComponent } from './components/registration/registration.component';
-import { ProductComponent } from './components/product/product.component';
+import {LoginComponent} from './components/login/login.component';
+import {RegistrationComponent} from './components/registration/registration.component';
+import {ProductComponent} from './components/product/product.component';
 
 const routes: Routes = [
     {
@@ -46,7 +46,8 @@ const routes: Routes = [
         RouterModule.forRoot(routes),
         NgbModule,
         HttpClientModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FormsModule
     ],
     exports: [
         RouterModule
@@ -57,4 +58,5 @@ const routes: Routes = [
         AuthGuardService
     ]
 })
-export class ShopModule {}
+export class ShopModule {
+}

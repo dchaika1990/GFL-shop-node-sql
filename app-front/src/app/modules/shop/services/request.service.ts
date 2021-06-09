@@ -12,6 +12,7 @@ export class RequestService {
     apiUrl = this.proxyServ + 'api/product';
     apiUrlCategories = this.proxyServ + 'api/category';
     apiUrlProduct = this.proxyServ + 'api/product';
+    apiUrlCart = this.proxyServ + 'api/product/cart';
     products: Product[] = [];
     categories: Category[] = [];
     product: {} = {}
@@ -69,6 +70,10 @@ export class RequestService {
                 observer.complete();
             });
         });
+    }
+
+    setProductToCart(options) {
+        return this.http.post(this.apiUrlCart, options)
     }
 
     get getCartProducts() {

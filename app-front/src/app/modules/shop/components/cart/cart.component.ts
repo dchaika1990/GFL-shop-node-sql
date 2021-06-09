@@ -47,7 +47,8 @@ export class CartComponent implements OnInit {
             'id_user': this.cartProducts[i].id_user,
             'id_product': this.cartProducts[i].id_product,
             'id_options': this.cartProducts[i].id_options,
-            'product_count': 1
+            'product_count': 1,
+            'product_sum': +(this.cartProducts[i].product_price * this.cartProducts[i].product_count).toFixed(2),
         }
         this.cartProducts[i].product_count++;
         this.requestService.setProductToCart(options).subscribe(

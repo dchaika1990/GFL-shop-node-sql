@@ -3,8 +3,8 @@ const ApiError = require('../error/ApiError')
 
 class cartController {
 	addToCart(req, res, next){
-		const {id_user, id_product, id_options, product_count} = req.body
-		cartModel.addToCart(id_user, id_product, id_options, product_count, callback => {
+		const {id_user, id_product, id_options, product_count, product_sum} = req.body
+		cartModel.addToCart(id_user, id_product, id_options, product_count, product_sum, callback => {
 			const { success, msg } = callback;
 			if (!success || msg.length === 0) {
 				return next(ApiError.badRequest('Something went wrong'))

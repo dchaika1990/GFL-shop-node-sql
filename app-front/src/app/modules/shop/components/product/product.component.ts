@@ -69,11 +69,13 @@ export class ProductComponent implements OnInit {
 
     addToCart(){
         const options = {
-            'id_user': this.authService.userInfo[0],
-            'id_product': this.id,
-            'id_options': this.productOptions['id_options'],
-            'product_count': this.product_count
+            'id_user': +this.authService.userInfo[0],
+            'id_product': +this.id,
+            'id_options': +this.productOptions['id_options'],
+            'product_count': +this.product_count,
+            'product_sum': +(+this.product_count * +this.productInfo['product_price']).toFixed(2)
         }
+        console.log(options)
         this.requestService.setProductToCart(options).subscribe(
             (res) =>{
                 this.router.navigate(['cart'])

@@ -11,7 +11,7 @@ class CartModel {
 			})
 	}
 
-	async addToCart(id_user, id_product, id_options, product_count, callback) {
+	async addToCart(id_user, id_product, id_options, product_count, product_sum, callback) {
 		this.isExistProduct(id_user, id_options, product_count_before => {
 			if (product_count_before) {
 				if (product_count_before.product_count + product_count === 0) {
@@ -25,8 +25,8 @@ class CartModel {
 					)
 				} else {
 					DB.query(
-						"UPDATE cart SET product_count=? WHERE cart.id_cart =?;",
-						[product_count_before.product_count + product_count, product_count_before.id_cart],
+						"UPDATE cart SET product_count=?, product_sum=? WHERE cart.id_cart =?;",
+						[product_count_before.product_count + product_count, product_sum, product_count_before.id_cart],
 						result => {
 							const {success, msg} = result;
 							if (!success) return callback(msg);
@@ -35,9 +35,10 @@ class CartModel {
 					);
 				}
 			} else {
+				console.log()
 				DB.query(
-					"INSERT INTO cart VALUES (NULL, ?, ?, ?, ?)",
-					[id_user, id_product, id_options, product_count],
+					"INSERT INTO cart VALUES (NULL, ?, ?, ?, ?, ?)",
+					[id_user, id_product, id_options, product_count, product_sum],
 					result => {
 						const {success, msg} = result;
 						if (!success) return callback(msg);

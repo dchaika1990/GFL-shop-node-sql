@@ -44,6 +44,6 @@ export class CheckoutComponent implements OnInit {
     }
 
     get totalPrice() {
-        return +this.price_option.reduce((sum, good) => sum + good.sum * good.count, 0).toFixed(2);
+        return +this.price_option.reduce((sum, good) => sum + good.sum, 0).toFixed(2);
     }
 }

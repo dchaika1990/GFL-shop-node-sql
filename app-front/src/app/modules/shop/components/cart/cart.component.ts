@@ -26,13 +26,14 @@ export class CartComponent implements OnInit {
     // }
 
     removeProductFromCart(i) {
+        this.cartProducts[i].product_count--;
         const options = {
             'id_user': this.cartProducts[i].id_user,
             'id_product': this.cartProducts[i].id_product,
             'id_options': this.cartProducts[i].id_options,
-            'product_count': -1
+            'product_count': -1,
+            'product_sum': +(this.cartProducts[i].product_price * this.cartProducts[i].product_count).toFixed(2),
         }
-        this.cartProducts[i].product_count--;
         if (this.cartProducts[i].product_count === 0) {
             this.cartProducts = this.cartProducts.filter((item) => item.id_product !== this.cartProducts[i].id_product);
         }
@@ -43,14 +44,15 @@ export class CartComponent implements OnInit {
     }
 
     addProductToCart(i) {
+        this.cartProducts[i].product_count++;
         const options = {
             'id_user': this.cartProducts[i].id_user,
             'id_product': this.cartProducts[i].id_product,
             'id_options': this.cartProducts[i].id_options,
             'product_count': 1,
-            'product_sum': +(this.cartProducts[i].product_price * this.cartProducts[i].product_count).toFixed(2),
+            'product_sum': (this.cartProducts[i].product_price * this.cartProducts[i].product_count ).toFixed(2),
         }
-        this.cartProducts[i].product_count++;
+        // console.log(this.cartProducts[i].product_count)
         this.requestService.setProductToCart(options).subscribe(
             (res) =>{},
             (error) =>{console.log('error', error)}

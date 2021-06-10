@@ -10,7 +10,7 @@ class orderController {
 			if (!success || msg.length === 0) {
 				return next(ApiError.badRequest('Product not fount'))
 			}
-			console.log(callback)
+
 			try {
 				res.json(msg)
 			} catch (e) {
@@ -38,7 +38,6 @@ class orderController {
 	}
 
 	getOrders(req, res, next) {
-		console.log(req)
 		const {token} = req.query;
 		let idUser = Buffer.from(token, 'base64').toString('utf-8').split('.')[0];
 		orderModel.getOrders(idUser, callback => {

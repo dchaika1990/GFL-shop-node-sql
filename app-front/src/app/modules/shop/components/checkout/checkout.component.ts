@@ -47,6 +47,7 @@ export class CheckoutComponent implements OnInit {
             order_full_price: this.totalPrice,
             date_of_order: new Date(),
         }
+        console.log(info)
         this.requestService.addOrder(info).subscribe(
             res => {
                 this.router.navigate(['orders'])

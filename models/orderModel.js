@@ -34,6 +34,7 @@ class OrderModel {
 				return callback({success: false, msg: 'Did not get cart options'});
 			}
 
+
 			let newString = '';
 			let separator = ',';
 			CardOptions.forEach((option, index) => {
@@ -52,7 +53,7 @@ class OrderModel {
 			if (clean_cart.length === 0) {
 				return callback({success: false, msg: 'Did not clean cart'});
 			}
-			callback({success: true, msg: ''});
+			callback({success: true, msg: 'Added order'});
 		} catch (error) {
 			callback({success: false, msg: JSON.stringify(error)});
 		}

@@ -1,9 +1,20 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ErrorService {
 
-  constructor() { }
+    errorMessage: string = '';
+
+    constructor() {
+    }
+
+    writeMessage(error) {
+        this.errorMessage = error;
+    }
+
+    get error(){
+        return this.errorMessage
+    }
 }

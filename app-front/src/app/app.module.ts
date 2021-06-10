@@ -10,6 +10,7 @@ import {NotFoundPageComponent} from './components/not-found-page/not-found-page.
 import {UserPipe} from './user.pipe';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationComponent} from './components/navigation/navigation.component';
+import {FlashMessagesModule} from "angular2-flash-messages";
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import {NavigationComponent} from './components/navigation/navigation.component'
         NgbModule,
         ShopModule,
         AppRoutingModule,
+        FlashMessagesModule.forRoot(),
     ],
     providers: [
         UsersService

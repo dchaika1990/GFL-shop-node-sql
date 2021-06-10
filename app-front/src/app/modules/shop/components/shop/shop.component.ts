@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Product} from '../../interfaces/product';
 import {RequestService} from '../../services/request.service';
-import {ApiService} from '../../services/api.service';
-import {AuthService} from "../../services/auth.service";
 
 @Component({
     selector: 'app-shop',
@@ -15,7 +13,7 @@ export class ShopComponent implements OnInit {
     cartProducts: Product[] = [];
     proxy: String = this.requestService.proxyServ
 
-    constructor(private requestService: RequestService, private apiService: ApiService, private authService: AuthService) {
+    constructor(private requestService: RequestService) {
     }
 
     ngOnInit(): void {
@@ -38,8 +36,4 @@ export class ShopComponent implements OnInit {
             });
         }
     }
-
-    // addToCart(product: Product) {
-    //     this.apiService.addProduct(product, this.cartProducts, this.products);
-    // }
 }

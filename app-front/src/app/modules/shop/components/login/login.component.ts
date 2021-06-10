@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {RequestService} from "../../services/request.service";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
+import {ErrorService} from "../../services/error.service";
+import {FlashMessagesService} from "angular2-flash-messages";
 
 @Component({
     selector: 'app-login',
@@ -12,9 +14,13 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
 
     loginForm: FormGroup;
-    errorMessage: any = '';
 
-    constructor(private requestService: RequestService, private authService: AuthService, public router: Router) {
+    constructor(
+        private requestService: RequestService,
+        private authService: AuthService,
+        public router: Router,
+        private flashMessage: FlashMessagesService,
+    ) {
         this.loginForm = new FormGroup({
             user_login: new FormControl('', [Validators.required, Validators.minLength(2)]),
             user_password: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -34,7 +40,10 @@ export class LoginComponent implements OnInit {
                 this.router.navigate([''])
             },
             (err) => {
-                console.log(err.error.message)
+                this.flashMessage.show(err.error.message, {
+                    cssClass: 'alert-danger',
+                    timeout: 4000
+                });
             }
         );
     }

@@ -15,8 +15,8 @@
                         <td>{{order['date_of_order'] | date:'medium'}}</td>
                     </tr>
                     <tr>
-                        <th>Order Number</th>
-                        <td>{{order['id_order']}}</td>
+                        <th>Full Price</th>
+                        <td>{{order['order_full_price']}}$</td>
                     </tr>
                     <tr>
                         <th>Order Status</th>
@@ -45,6 +45,10 @@
                     <tr>
                         <th>Payment</th>
                         <td>{{order['name_payment_method']}}</td>
+                    </tr>
+                    <tr>
+                        <th>Comments</th>
+                        <td>{{order['order_comments']}}</td>
                     </tr>
                     </tbody>
                 </table>

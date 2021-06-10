@@ -16,8 +16,8 @@ import {LoginComponent} from './components/login/login.component';
 import {RegistrationComponent} from './components/registration/registration.component';
 import {ProductComponent} from './components/product/product.component';
 import {OrdersComponent} from './components/orders/orders.component';
-import { OrderInfoComponent } from './components/order-info/order-info.component';
-import { ErrorComponent } from './components/error/error.component';
+import {OrderInfoComponent} from './components/order-info/order-info.component';
+import {ErrorComponent} from './components/error/error.component';
 
 const routes: Routes = [
     {
@@ -54,10 +54,11 @@ const routes: Routes = [
         NgbModule,
         HttpClientModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
     ],
     exports: [
-        RouterModule
+        RouterModule,
+        ErrorComponent
     ],
     providers: [
         RequestService,

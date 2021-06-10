@@ -45,16 +45,7 @@ export class AuthService {
     }
 
     sendRegisterRequest(formData) {
-        this.http.post(this.registerUrl, formData).subscribe(
-            (res) => {
-                this.setCookie('token', res, {});
-                this.isAuth = true;
-                this.router.navigate([''])
-            },
-            (err) => {
-                this.errorMessage = err.error.message;
-            }
-        )
+        return this.http.post(this.registerUrl, formData)
     }
 
     logOut(){

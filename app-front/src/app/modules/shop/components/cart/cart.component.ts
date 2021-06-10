@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {RequestService} from '../../services/request.service';
 import {CartItem} from "../../interfaces/cartItem";
 import {AuthService} from "../../services/auth.service";
+import {FlashMessagesService} from "angular2-flash-messages";
 
 @Component({
     selector: 'app-cart',
@@ -11,7 +12,11 @@ import {AuthService} from "../../services/auth.service";
 export class CartComponent implements OnInit {
     cartProducts: CartItem[] = [];
     loading = true;
-    constructor(private requestService: RequestService, private authService: AuthService) {
+    constructor(
+        private requestService: RequestService,
+        private authService: AuthService,
+        private flashMessage: FlashMessagesService,
+    ) {
     }
 
     ngOnInit(): void {
@@ -34,10 +39,19 @@ export class CartComponent implements OnInit {
         }
         if (this.cartProducts[i].product_count === 0) {
             this.cartProducts = this.cartProducts.filter((item) => item.id_product !== this.cartProducts[i].id_product);
+            this.flashMessage.show('Remove product', {
+                cssClass: 'alert-info',
+                timeout: 4000
+            });
         }
         this.requestService.setProductToCart(options).subscribe(
             (res) =>{},
-            (error) =>{console.log('error', error)}
+            (error) =>{
+                this.flashMessage.show(error.error.message, {
+                    cssClass: 'alert-danger',
+                    timeout: 4000
+                });
+            }
         )
     }
 
@@ -52,7 +66,12 @@ export class CartComponent implements OnInit {
         }
         this.requestService.setProductToCart(options).subscribe(
             (res) =>{},
-            (error) =>{console.log('error', error)}
+            (error) =>{
+                this.flashMessage.show(error.error.message, {
+                    cssClass: 'alert-danger',
+                    timeout: 4000
+                });
+            }
         )
     }
 

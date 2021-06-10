@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../../services/request.service";
 import {Order} from "../../interfaces/order";
+import {FlashMessagesService} from "angular2-flash-messages";
 
 @Component({
     selector: 'app-orders',
@@ -12,7 +13,10 @@ export class OrdersComponent implements OnInit {
     orders: Order[] = [];
     loading = true;
 
-    constructor(private requestService: RequestService) {
+    constructor(
+        private requestService: RequestService,
+        private flashMessage: FlashMessagesService,
+    ) {
     }
 
     ngOnInit(): void {
@@ -22,7 +26,10 @@ export class OrdersComponent implements OnInit {
                 this.loading = false;
             },
             error => {
-                console.log(error)
+                this.flashMessage.show(error.error.message, {
+                    cssClass: 'alert-danger',
+                    timeout: 4000
+                });
             }
         )
     }

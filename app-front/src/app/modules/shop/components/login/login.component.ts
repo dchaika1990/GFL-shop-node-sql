@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {RequestService} from "../../services/request.service";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
-import {ErrorService} from "../../services/error.service";
 import {FlashMessagesService} from "angular2-flash-messages";
 
 @Component({
@@ -27,9 +26,7 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void {
-        console.log(this.authService.isAuthenticated())
-    }
+    ngOnInit(): void {}
 
     submitAction(event: any) {
         event.preventDefault();
@@ -37,6 +34,10 @@ export class LoginComponent implements OnInit {
             (res) => {
                 this.authService.setCookie('token', res, {});
                 this.authService.setAuth(true);
+                this.flashMessage.show( 'You are now logged in', {
+                    cssClass: 'alert-success',
+                    timeOut: 4000
+                } );
                 this.router.navigate([''])
             },
             (err) => {

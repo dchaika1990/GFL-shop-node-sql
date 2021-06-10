@@ -5,6 +5,7 @@ import {Method} from "../../interfaces/method";
 import {PriceOption} from "../../interfaces/price-option";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
+import {FlashMessagesService} from "angular2-flash-messages";
 
 @Component({
     selector: 'app-checkout',
@@ -18,7 +19,12 @@ export class CheckoutComponent implements OnInit {
     delivery_method: Method[] = []
     price_option: PriceOption[] = []
 
-    constructor(private requestService: RequestService, private authService: AuthService, private router: Router) {
+    constructor(
+        private requestService: RequestService,
+        private authService: AuthService,
+        private router: Router,
+        private flashMessage: FlashMessagesService,
+    ) {
         this.checkoutForm = new FormGroup({
             country: new FormControl('', [Validators.required, Validators.minLength(2)]),
             city: new FormControl('', [Validators.required, Validators.minLength(2)]),
@@ -50,6 +56,10 @@ export class CheckoutComponent implements OnInit {
         console.log(info)
         this.requestService.addOrder(info).subscribe(
             res => {
+                this.flashMessage.show('Created the order', {
+                    cssClass: 'alert-success',
+                    timeout: 4000
+                });
                 this.router.navigate(['orders'])
             },
             error => {

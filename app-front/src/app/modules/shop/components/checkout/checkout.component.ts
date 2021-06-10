@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {RequestService} from '../../services/request.service';
 import {Method} from "../../services/method";
 import {PriceOption} from "../../services/price-option";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
     selector: 'app-checkout',
@@ -16,16 +17,16 @@ export class CheckoutComponent implements OnInit {
     delivery_method: Method[] = []
     price_option: PriceOption[] = []
 
-    constructor(private requestService: RequestService) {
+    constructor(private requestService: RequestService, private authService: AuthService) {
         this.checkoutForm = new FormGroup({
             country: new FormControl('', [Validators.required, Validators.minLength(2)]),
             city: new FormControl('', [Validators.required, Validators.minLength(2)]),
             state: new FormControl('', [Validators.required, Validators.minLength(2)]),
-            deliveryAddress: new FormControl('', [Validators.required, Validators.minLength(2)]),
+            delivery_address: new FormControl('', [Validators.required, Validators.minLength(2)]),
             postcode: new FormControl('', [Validators.required, Validators.minLength(2)]),
             payment_method: new FormControl('', [Validators.required, Validators.minLength(2)]),
             delivery_method: new FormControl('', [Validators.required, Validators.minLength(2)]),
-            comments: new FormControl(''),
+            order_comments: new FormControl(''),
         });
     }
 
@@ -39,8 +40,21 @@ export class CheckoutComponent implements OnInit {
 
     submitAction(event: any) {
         event.preventDefault();
-        console.log('LOG ===', this.checkoutForm.value);
-        this.requestService.setCartProducts(JSON.stringify([]));
+        let info = {
+            id_user: this.authService.userInfo[0],
+            ...this.checkoutForm.value,
+            order_full_price: this.totalPrice,
+            date_of_order: new Date(),
+        }
+        // console.log('LOG ===', info);
+        this.requestService.addOrder(info).subscribe(
+            res => {
+                console.log(res)
+            },
+            error => {
+                console.log(error)
+            });
+
     }
 
     get totalPrice() {

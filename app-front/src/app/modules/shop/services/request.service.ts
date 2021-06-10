@@ -6,7 +6,6 @@ import {Category} from "./category";
 import {CartItem} from "./cartItem";
 import config from '../../../../config.dev.js'
 import {AuthService} from "./auth.service";
-import {Method} from "./method";
 
 @Injectable({
     providedIn: 'root'
@@ -18,6 +17,7 @@ export class RequestService {
     apiUrlCartAdd = this.proxyServ + 'api/cart/add';
     apiUrlCartGet = this.proxyServ + 'api/cart/get';
     apiUrlInfoForCheckout = this.proxyServ + 'api/order/checkout';
+    apiUrlAddOrder = this.proxyServ + 'api/order/add';
     products: Product[] = [];
     categories: Category[] = [];
     cartProducts: CartItem[] = [];
@@ -101,6 +101,10 @@ export class RequestService {
                 observer.complete();
             });
         });
+    }
+
+    addOrder(options){
+        return this.http.post(this.apiUrlAddOrder, options)
     }
 
     setCartProducts(item: any) {

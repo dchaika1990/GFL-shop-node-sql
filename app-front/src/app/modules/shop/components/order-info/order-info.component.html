@@ -1,1 +1,60 @@
-<p>order-info works!</p>
+<div class="container py-5">
+    <div class="cow">
+        <div class="col-12" *ngIf="!loading">
+            <h2 class="mb-4">Thank you for your order</h2>
+            <h4 class="mb-3">Order #{{order['id_order']}}</h4>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <tbody>
+                    <tr>
+                        <th>User</th>
+                        <td>{{userName | titlecase}}</td>
+                    </tr>
+                    <tr>
+                        <th>Order Date</th>
+                        <td>{{order['date_of_order'] | date:'medium'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Order Number</th>
+                        <td>{{order['id_order']}}</td>
+                    </tr>
+                    <tr>
+                        <th>Order Status</th>
+                        <td>{{order['name_order_status']}}</td>
+                    </tr>
+                    <tr>
+                        <th>Country</th>
+                        <td>{{order['country']}}</td>
+                    </tr>
+                    <tr>
+                        <th>State</th>
+                        <td>{{order['state']}}</td>
+                    </tr>
+                    <tr>
+                        <th>City</th>
+                        <td>{{order['city']}}</td>
+                    </tr>
+                    <tr>
+                        <th>Delivery address</th>
+                        <td>{{order['delivery_address']}}</td>
+                    </tr>
+                    <tr>
+                        <th>Delivery</th>
+                        <td>{{order['name_delivery']}}</td>
+                    </tr>
+                    <tr>
+                        <th>Payment</th>
+                        <td>{{order['name_payment_method']}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button
+                routerLink="/orders"
+                class="btn btn-info mt-3"
+            >
+                Back to Orders
+            </button>
+        </div>
+    </div>
+</div>

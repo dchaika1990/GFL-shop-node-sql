@@ -21,7 +21,7 @@ export class ProductComponent implements OnInit {
     product_count: number = 0;
 
 
-    constructor(private requestService: RequestService, private authService: AuthService,private router: Router, private activeRoute: ActivatedRoute) {
+    constructor(private requestService: RequestService, private authService: AuthService, private router: Router, private activeRoute: ActivatedRoute) {
     }
 
     ngOnInit(): void {

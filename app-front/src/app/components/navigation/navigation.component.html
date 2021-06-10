@@ -11,11 +11,15 @@
                     <a class="nav-link" routerLink="/"
                        [routerLinkActiveOptions]="{ exact: true }" href="#" routerLinkActive="active">Home</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="authService.userInfo">
                     <a class="nav-link" routerLink="/cart" href="#" routerLinkActive="active">Cart</a>
+                </li>
+                <li class="nav-item" *ngIf="authService.userInfo">
+                    <a class="nav-link" routerLink="/orders" href="#" routerLinkActive="active">Orders</a>
                 </li>
             </ul>
         </div>
+
         <div *ngIf="authService.userInfo">Hello {{authService.userInfo[1]}}</div>
         <button
             *ngIf="authService.userInfo"
@@ -24,5 +28,14 @@
         >
             Logout
         </button>
+
+        <button
+            *ngIf="!authService.userInfo"
+            class="btn btn-info ml-2"
+            routerLink="/login"
+        >
+            Login
+        </button>
+
     </div>
 </nav>

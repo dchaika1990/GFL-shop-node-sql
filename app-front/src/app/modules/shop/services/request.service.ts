@@ -118,6 +118,16 @@ export class RequestService {
         });
     }
 
+    getOrder(id){
+        const request = this.http.get(this.apiUrlGetOrders + '/' + id, {observe: 'response'});
+        return new Observable(observer => {
+            request.subscribe(response => {
+                observer.next(response.body);
+                observer.complete();
+            });
+        });
+    }
+
     setCartProducts(item: any) {
         localStorage.setItem('cartProducts', item);
     }

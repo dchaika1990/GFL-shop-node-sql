@@ -4,47 +4,66 @@ class OrderModel {
 	async getCheckoutInfo(id, callback) {
 		const payment_method = await DB.promise().execute('Select payment_method.id_payment_method as id, payment_method.name_payment_method as name from payment_method')
 		const delivery_method = await DB.promise().execute('Select delivery_method.id_delivery_method as id, delivery_method.name_delivery as name from delivery_method')
-		const price_options = await DB.promise().execute('SELECT products.product_name as name, cart.product_count as count, cart.product_sum as sum from products, cart where cart.id_product=products.id_product and cart.id_user=?',[id])
-		callback({success: true, msg: {
-			payment_method: payment_method[0],
-			delivery_method: delivery_method[0],
-			price_options: price_options[0],
-		}});
+		const price_options = await DB.promise().execute('SELECT products.product_name as name, cart.product_count as count, cart.product_sum as sum from products, cart where cart.id_product=products.id_product and cart.id_user=?', [id])
+		callback({
+			success: true, msg: {
+				payment_method: payment_method[0],
+				delivery_method: delivery_method[0],
+				price_options: price_options[0],
+			}
+		});
 	}
 
 	async addOrder(id_user, country, city, state, delivery_address, postcode, payment_method, delivery_method, order_comments, order_full_price, date_of_order, callback) {
-		DB.query(`INSERT INTO orders VALUES (NULL, ${+id_user}, '${country}', '${city}', '${state}', '${delivery_address}', '${postcode}', ${+payment_method}, ${+delivery_method}, '${order_comments}', ${+order_full_price}, '${date_of_order}', 2)`, async result => {
-				const {success, msg} = result;
-				if (!success) return callback(msg);
+		try {
+			let [orders] = await DB.promise().execute(`INSERT INTO orders VALUES (NULL, ${+id_user}, '${country}', '${city}', '${state}', '${delivery_address}', '${postcode}', ${+payment_method}, ${+delivery_method}, '${order_comments}', ${+order_full_price}, '${date_of_order}', 2)`)
 
-				let [id] = await DB.promise().execute('SELECT MAX(orders.id_order) FROM orders WHERE orders.id_user=?', [id_user])
-				id = id[0]['MAX(orders.id_order)']
-				let [CardOptions] = await DB.promise().execute('SELECT cart.id_product, cart.id_options, cart.product_count, cart.product_sum FROM cart WHERE cart.id_user=?', [id_user])
-				let newString = '';
-				let separator = ','
-				CardOptions.forEach((option, index) => {
-					if (CardOptions.length - 1 === index) separator = '';
-					newString += `(${option.id_product}, ${option.id_options}, ${option.product_count}, ${option.product_sum}, ${id})${separator} `
-				})
-
-				DB.query(`insert into order_details(id_product, product_options, product_count, product_sum, id_order) VALUES ${newString}`, async result => {
-					const {success, msg} = result;
-					if (!success) return callback(msg);
-
-					DB.query(`DELETE FROM cart WHERE cart.id_user=${id_user}`, async result => {
-						const {success, msg} = result;
-						if (!success) return callback(msg);
-						console.log(msg)
-						callback(result);
-					})
-				})
+			if (orders.length === 0) {
+				return callback({success: false, msg: 'Order did not create'});
 			}
-		);
 
+			let [idUser] = await DB.promise().execute('SELECT MAX(orders.id_order) FROM orders WHERE orders.id_user=?', [id_user])
 
-		//insert into order_details(id_product, product_options, product_count, product_sum, id_order) VALUES (1, 3, 4, 180, 10), (8, 16, 1, 45, 10)
-		//DELETE FROM cart WHERE cart.id_user = 5
-		// console.log(newString)
+			if (idUser.length === 0) {
+				return callback({success: false, msg: 'Did not get user id'});
+			}
+
+			let [CardOptions] = await DB.promise().execute('SELECT cart.id_product, cart.id_options, cart.product_count, cart.product_sum FROM cart WHERE cart.id_user=?', [id_user])
+
+			if (CardOptions.length === 0) {
+				return callback({success: false, msg: 'Did not get cart options'});
+			}
+
+			let newString = '';
+			let separator = ',';
+			CardOptions.forEach((option, index) => {
+				if (CardOptions.length - 1 === index) separator = '';
+				newString += `(${option.id_product}, ${option.id_options}, ${option.product_count}, ${option.product_sum}, ${idUser[0]['MAX(orders.id_order)']})${separator} `
+			})
+
+			let [order_details] = await DB.promise().execute(`insert into order_details(id_product, product_options, product_count, product_sum, id_order) VALUES ${newString}`)
+
+			if (order_details.length === 0) {
+				return callback({success: false, msg: 'Did not push cart options into order details'});
+			}
+
+			let [clean_cart] = await DB.promise().execute(`DELETE FROM cart WHERE cart.id_user=${id_user}`)
+
+			if (clean_cart.length === 0) {
+				return callback({success: false, msg: 'Did not clean cart'});
+			}
+			callback({success: true, msg: ''});
+		} catch (error) {
+			callback({success: false, msg: JSON.stringify(error)});
+		}
+	}
+
+	async getOrders(id, callback){
+		await DB.query('SELECT orders.id_order, orders.id_user, orders.country, orders.city, orders.state, orders.delivery_address, orders.postcode, orders.order_comments, orders.order_full_price, orders.date_of_order, payment_method.name_payment_method, delivery_method.name_delivery, order_status.name_order_status FROM orders, payment_method, delivery_method, order_status WHERE orders.payment_method=payment_method.id_payment_method and orders.delivery_method=delivery_method.id_delivery_method and orders.order_status=order_status.id_order_status and orders.id_user=?',[id], result => {
+			const {success, msg} = result;
+			if (!success) return callback(msg);
+			return callback(result);
+		})
 	}
 }
 

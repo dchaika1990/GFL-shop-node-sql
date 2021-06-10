@@ -18,6 +18,7 @@ export class RequestService {
     apiUrlCartGet = this.proxyServ + 'api/cart/get';
     apiUrlInfoForCheckout = this.proxyServ + 'api/order/checkout';
     apiUrlAddOrder = this.proxyServ + 'api/order/add';
+    apiUrlGetOrders = this.proxyServ + 'api/order/get';
     products: Product[] = [];
     categories: Category[] = [];
     cartProducts: CartItem[] = [];
@@ -105,6 +106,16 @@ export class RequestService {
 
     addOrder(options){
         return this.http.post(this.apiUrlAddOrder, options)
+    }
+
+    getOrders(){
+        const request = this.http.get(this.apiUrlGetOrders + '?token=' + this.authService.userToken, {observe: 'response'});
+        return new Observable(observer => {
+            request.subscribe(response => {
+                observer.next(response.body);
+                observer.complete();
+            });
+        });
     }
 
     setCartProducts(item: any) {

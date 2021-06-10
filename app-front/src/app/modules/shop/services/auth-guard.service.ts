@@ -14,6 +14,7 @@ export class AuthGuardService implements CanActivate {
         this.auth.checkToken().subscribe(
             (res) => {
                 this.auth.setAuth(res);
+                console.log('AuthGuardService', res)
                 if (!res) {
                     this.router.navigate(['login']);
                     return false;

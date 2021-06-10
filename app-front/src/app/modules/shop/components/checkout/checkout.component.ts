@@ -4,6 +4,7 @@ import {RequestService} from '../../services/request.service';
 import {Method} from "../../services/method";
 import {PriceOption} from "../../services/price-option";
 import {AuthService} from "../../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-checkout',
@@ -17,7 +18,7 @@ export class CheckoutComponent implements OnInit {
     delivery_method: Method[] = []
     price_option: PriceOption[] = []
 
-    constructor(private requestService: RequestService, private authService: AuthService) {
+    constructor(private requestService: RequestService, private authService: AuthService, private router: Router) {
         this.checkoutForm = new FormGroup({
             country: new FormControl('', [Validators.required, Validators.minLength(2)]),
             city: new FormControl('', [Validators.required, Validators.minLength(2)]),
@@ -46,10 +47,9 @@ export class CheckoutComponent implements OnInit {
             order_full_price: this.totalPrice,
             date_of_order: new Date(),
         }
-        // console.log('LOG ===', info);
         this.requestService.addOrder(info).subscribe(
             res => {
-                console.log(res)
+                this.router.navigate(['orders'])
             },
             error => {
                 console.log(error)

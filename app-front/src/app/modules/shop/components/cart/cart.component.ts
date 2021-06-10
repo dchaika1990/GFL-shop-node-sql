@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from '../../services/request.service';
 import {CartItem} from "../../services/cartItem";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
     selector: 'app-cart',
@@ -10,20 +11,17 @@ import {CartItem} from "../../services/cartItem";
 export class CartComponent implements OnInit {
     cartProducts: CartItem[] = [];
     loading = true;
-    constructor(private requestService: RequestService) {
+    constructor(private requestService: RequestService, private authService: AuthService) {
     }
 
     ngOnInit(): void {
-        this.requestService.loadCartProducts().subscribe(items => {
-            this.cartProducts = (items as CartItem[]);
-            this.loading = false;
-        })
+        if (this.authService.userToken) {
+            this.requestService.loadCartProducts().subscribe(items => {
+                this.cartProducts = (items as CartItem[]);
+                this.loading = false;
+            })
+        }
     }
-
-    // removeProductFromCart(product: Product) {
-    //     this.api.removeProduct(product, this.cartProducts, this.products);
-    //     this.cartProducts = this.requestService.getCartProducts;
-    // }
 
     removeProductFromCart(i) {
         this.cartProducts[i].product_count--;
@@ -52,7 +50,6 @@ export class CartComponent implements OnInit {
             'product_count': 1,
             'product_sum': (this.cartProducts[i].product_price * this.cartProducts[i].product_count ).toFixed(2),
         }
-        // console.log(this.cartProducts[i].product_count)
         this.requestService.setProductToCart(options).subscribe(
             (res) =>{},
             (error) =>{console.log('error', error)}

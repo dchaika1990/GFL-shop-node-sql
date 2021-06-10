@@ -1,0 +1,15 @@
+export interface Order {
+    id_order: number,
+    id_user: number,
+    country: string,
+    city: string,
+    state: string,
+    delivery_address: string,
+    postcode: string,
+    order_comments: string,
+    order_full_price: number,
+    date_of_order: string,
+    name_payment_method: string,
+    name_delivery: string,
+    name_order_status: string,
+}

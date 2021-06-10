@@ -22,7 +22,7 @@ class cartController {
 		let idUser = Buffer.from(token, 'base64').toString('utf-8').split('.')[0];
 		cartModel.getCartInfo(idUser, callback =>{
 			const { success, msg } = callback;
-			if (!success || msg.length === 0) {
+			if (!success) {
 				return next(ApiError.badRequest('Something went wrong'))
 			}
 			try {

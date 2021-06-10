@@ -1,0 +1,40 @@
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12" *ngIf="!loading">
+            <h3>Orders ({{orders.length}})</h3>
+            <div class="table-responsive mt-3">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Date of order</th>
+                        <th scope="col">Payment method</th>
+                        <th scope="col">Delivery method</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Total price</th>
+                        <th scope="col">Show</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let order of orders; let i = index">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{order.date_of_order | date:'medium'}}</td>
+                            <td>{{order.name_payment_method}}</td>
+                            <td>{{order.name_delivery}}</td>
+                            <td>{{order.name_order_status}}</td>
+                            <td>{{order.order_full_price}}</td>
+                            <td>
+                                <button
+                                    class="btn btn-info"
+                                    routerLink="{{order.id_order}}"
+                                >
+                                    View
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

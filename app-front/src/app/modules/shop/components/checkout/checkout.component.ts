@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {RequestService} from '../../services/request.service';
-import {Method} from "../../services/method";
-import {PriceOption} from "../../services/price-option";
+import {Method} from "../../interfaces/method";
+import {PriceOption} from "../../interfaces/price-option";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 

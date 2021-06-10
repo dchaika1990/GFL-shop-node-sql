@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Category} from "../../services/category";
+import {Category} from "../../interfaces/category";
 import {RequestService} from "../../services/request.service";
 
 @Component({

@@ -17,6 +17,7 @@ import {RegistrationComponent} from './components/registration/registration.comp
 import {ProductComponent} from './components/product/product.component';
 import {OrdersComponent} from './components/orders/orders.component';
 import { OrderInfoComponent } from './components/order-info/order-info.component';
+import { ErrorComponent } from './components/error/error.component';
 
 const routes: Routes = [
     {
@@ -44,7 +45,8 @@ const routes: Routes = [
         RegistrationComponent,
         ProductComponent,
         OrdersComponent,
-        OrderInfoComponent
+        OrderInfoComponent,
+        ErrorComponent
     ],
     imports: [
         CommonModule,

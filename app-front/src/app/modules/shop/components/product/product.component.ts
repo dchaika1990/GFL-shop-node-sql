@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../../services/request.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ProductSingleInfo, ProductSingleOptions} from "../../services/productSingle";
+import {ProductSingleInfo, ProductSingleOptions} from "../../interfaces/productSingle";
 import {AuthService} from "../../services/auth.service";
 
 @Component({

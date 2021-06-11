@@ -53,7 +53,6 @@ export class CheckoutComponent implements OnInit {
             order_full_price: this.totalPrice,
             date_of_order: new Date(),
         }
-        console.log(info)
         this.requestService.addOrder(info).subscribe(
             res => {
                 this.flashMessage.show('Created the order', {
@@ -63,7 +62,10 @@ export class CheckoutComponent implements OnInit {
                 this.router.navigate(['order'])
             },
             error => {
-                console.log(error)
+                this.flashMessage.show(error.error.message, {
+                    cssClass: 'alert-danger',
+                    timeout: 4000
+                });
             });
 
     }

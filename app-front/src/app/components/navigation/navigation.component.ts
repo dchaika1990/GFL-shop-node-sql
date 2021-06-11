@@ -15,7 +15,6 @@ export class NavigationComponent implements OnInit {
         this.authService.checkToken().subscribe(
             res => {
                 this.authService.setAuth(res)
-                console.log('Navigator isAuthenticated ', this.authService.isAuthenticated())
             }
         )
     }

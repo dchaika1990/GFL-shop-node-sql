@@ -21,7 +21,6 @@ export class OrdersComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log('Order isAuthenticated ', this.authService.isAuthenticated())
         this.requestService.getOrders().subscribe(
             res => {
                 this.orders = (res as Order[])

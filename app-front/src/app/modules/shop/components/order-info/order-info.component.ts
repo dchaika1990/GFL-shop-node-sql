@@ -3,6 +3,7 @@ import {Order} from "../../interfaces/order";
 import {RequestService} from "../../services/request.service";
 import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../../services/auth.service";
+import {FlashMessagesService} from "angular2-flash-messages";
 
 @Component({
     selector: 'app-order-info',
@@ -15,7 +16,12 @@ export class OrderInfoComponent implements OnInit {
     id: string = '';
     userName: string = '';
 
-    constructor(private requestService: RequestService, private activeRoute: ActivatedRoute, private authService:AuthService) {
+    constructor(
+        private requestService: RequestService,
+        private activeRoute: ActivatedRoute,
+        private authService:AuthService,
+        private flashMessage: FlashMessagesService,
+    ) {
     }
 
     ngOnInit(): void {
@@ -29,7 +35,10 @@ export class OrderInfoComponent implements OnInit {
                 this.userName = this.authService.userInfo[1]
             },
             error => {
-                console.log(error)
+                this.flashMessage.show(error.error.message, {
+                    cssClass: 'alert-danger',
+                    timeout: 4000
+                });
             }
         )
     }

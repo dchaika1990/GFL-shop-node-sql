@@ -50,7 +50,7 @@ export class AuthService {
 
     logOut(){
         this.deleteCookie('token');
-        this.isAuth = false;
+        this.setAuth(false);
         this.router.navigate([''])
     }
 

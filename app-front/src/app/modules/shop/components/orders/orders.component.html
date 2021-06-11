@@ -32,6 +32,9 @@
                                 </button>
                             </td>
                         </tr>
+                        <tr *ngIf="!orders.length">
+                            <td colspan="8">Order is empty</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

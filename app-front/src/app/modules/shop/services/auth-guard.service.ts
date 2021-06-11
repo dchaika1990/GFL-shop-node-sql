@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Router, CanActivate} from "@angular/router";
 import {AuthService} from "./auth.service";
-import {observable, Observable} from "rxjs";
+import {Observable} from "rxjs";
+import {FlashMessagesService} from "angular2-flash-messages";
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,8 @@ export class AuthGuardService implements CanActivate {
 
     constructor(
         public auth: AuthService,
-        public router: Router
+        public router: Router,
+        private flashMessage: FlashMessagesService,
     ) {
     }
 
@@ -18,10 +20,10 @@ export class AuthGuardService implements CanActivate {
     canActivate(): Observable<boolean> {
         return new Observable<boolean>(observer => {
             this.auth.checkToken().subscribe(
-                (res) => {
+                res => {
                     this.auth.setAuth(res);
                     if (!res) {
-                        // this.router.navigate(['login']);
+                        this.router.navigate(['login']);
                         observer.next(false);
                     } else {
                         observer.next(true);
@@ -29,7 +31,12 @@ export class AuthGuardService implements CanActivate {
 
                     observer.complete();
                 },
-                (err) => console.log(err)
+                error => {
+                    this.flashMessage.show(error.error.message, {
+                        cssClass: 'alert-danger',
+                        timeout: 4000
+                    });
+                }
             )
         })
     }

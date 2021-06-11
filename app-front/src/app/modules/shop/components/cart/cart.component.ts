@@ -22,7 +22,6 @@ export class CartComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log('Cart isAuthenticated ', this.authService.isAuthenticated())
         this.requestService.loadCartProducts().subscribe(
             items => {
                 this.cartProducts = (items as CartItem[]);

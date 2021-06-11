@@ -68,18 +68,14 @@ class OrderModel {
 	}
 
 	async getOrder(id, callback){
-		// await DB.query('SELECT orders.id_order, orders.id_user, orders.country, orders.city, orders.state, orders.delivery_address, orders.postcode, orders.order_comments, orders.order_full_price, orders.date_of_order, payment_method.name_payment_method, delivery_method.name_delivery, order_status.name_order_status FROM orders, payment_method, delivery_method, order_status WHERE orders.payment_method=payment_method.id_payment_method and orders.delivery_method=delivery_method.id_delivery_method and orders.order_status=order_status.id_order_status and orders.id_order=?',[id], result => {
-		// 	const {success, msg} = result;
-		// 	if (!success) return callback(msg);
-		// 	return callback(result);
-		// })
+
 		try {
 			let [orderInfo] = await DB.promise().execute('SELECT orders.id_order, orders.id_user, orders.country, orders.city, orders.state, orders.delivery_address, orders.postcode, orders.order_comments, orders.order_full_price, orders.date_of_order, payment_method.name_payment_method, delivery_method.name_delivery, order_status.name_order_status FROM orders, payment_method, delivery_method, order_status WHERE orders.payment_method=payment_method.id_payment_method and orders.delivery_method=delivery_method.id_delivery_method and orders.order_status=order_status.id_order_status and orders.id_order=?',[id])
 			if (orderInfo.length === 0) {
 				return callback({success: false, msg: 'Order did not found'});
 			}
 
-			let [orderProductsInfo] = await DB.promise().execute('Select products.product_name, product_type.type_name, product_color.color_name, product_size.size_name, order_details.product_count, order_details.product_sum from products, orders, order_details, product_options, product_type, product_color, product_size where order_details.id_order=orders.id_order and order_details.product_options=product_options.id_options and product_options.product_type=product_type.id_type and product_options.product_color=product_color.id_color and product_options.product_size=product_size.id_size and order_details.id_product=products.id_product and orders.id_order=?', [id])
+			let [orderProductsInfo] = await DB.promise().execute('Select orders.id_order, products.product_name, product_type.type_name, product_color.color_name, product_size.size_name, order_details.product_count, order_details.product_sum from products, orders, order_details, product_options, product_type, product_color, product_size where order_details.id_order=orders.id_order and order_details.product_options=product_options.id_options and product_options.product_type=product_type.id_type and product_options.product_color=product_color.id_color and product_options.product_size=product_size.id_size and order_details.id_product=products.id_product and orders.id_order=?', [id])
 			if (orderProductsInfo.length === 0) {
 				return callback({success: false, msg: 'Order did not found'});
 			}
@@ -87,7 +83,7 @@ class OrderModel {
 			callback({
 				success: true, msg: {
 					orderInfo: orderInfo[0],
-					orderProductsInfo: orderProductsInfo[0],
+					orderProductsInfo: orderProductsInfo,
 				}
 			});
 		} catch (error) {

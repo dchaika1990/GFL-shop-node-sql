@@ -15,6 +15,14 @@
                         <td>{{orderInfo['date_of_order'] | date:'medium'}}</td>
                     </tr>
                     <tr>
+                        <th>Your Products</th>
+                        <td>
+                            <span class="d-block" *ngFor="let product of orderProductsInfo">
+                                {{product.product_name}} - {{product.type_name}} / {{product.color_name}} / {{product.size_name}} / Count: {{product.product_count}} / Price: {{product.product_sum}}$
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
                         <th>Full Price</th>
                         <td>{{orderInfo['order_full_price']}}$</td>
                     </tr>

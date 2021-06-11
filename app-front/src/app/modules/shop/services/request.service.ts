@@ -27,10 +27,12 @@ export class RequestService {
     constructor(private http: HttpClient, private authService: AuthService) {
     }
 
-    get proxyServ(){
+    // Proxy url
+    get proxyServ() {
         return config.proxy
     }
 
+    // Load all products
     loadProducts() {
         const request = this.http.get(this.apiUrl, {observe: 'response'});
         return new Observable(observer => {
@@ -42,12 +44,13 @@ export class RequestService {
         });
     }
 
+    // Load single product
     loadSingleProduct(id, type: String = '', color: String = '', size: String = '') {
         let query: string = '?';
         if (type) query += `type=${type}&`;
         if (color) query += `color=${color}&`;
         if (size) query += `size=${size}`;
-        const request = this.http.get(this.apiUrlProduct + '/' + id + query , {observe: 'response'});
+        const request = this.http.get(this.apiUrlProduct + '/' + id + query, {observe: 'response'});
         return new Observable(observer => {
             request.subscribe(response => {
                 this.products = (response.body as Product[]);
@@ -57,6 +60,7 @@ export class RequestService {
         });
     }
 
+    // Load all products by category
     loadProductsByCategories(id: String) {
         const request = this.http.get(this.apiUrl + '?categoryId=' + id, {observe: 'response'});
         return new Observable(observer => {
@@ -68,6 +72,7 @@ export class RequestService {
         });
     }
 
+    // Load all categories
     loadCategories() {
         const request = this.http.get(this.apiUrlCategories, {observe: 'response'});
         return new Observable(observer => {
@@ -79,11 +84,13 @@ export class RequestService {
         });
     }
 
+    // Send products to cart
     setProductToCart(options) {
         return this.http.post(this.apiUrlCartAdd, options)
     }
 
-    loadCartProducts(){
+    // Loaf products from table cart
+    loadCartProducts() {
         const request = this.http.get(this.apiUrlCartGet + '?token=' + this.authService.userToken, {observe: 'response'});
         return new Observable(observer => {
             request.subscribe(response => {
@@ -94,8 +101,9 @@ export class RequestService {
         });
     }
 
-    loadMethods(){
-        const request = this.http.get(this.apiUrlInfoForCheckout  + '?token=' + this.authService.userToken, {observe: 'response'});
+    // Load payment and delivery methods
+    loadMethods() {
+        const request = this.http.get(this.apiUrlInfoForCheckout + '?token=' + this.authService.userToken, {observe: 'response'});
         return new Observable(observer => {
             request.subscribe(response => {
                 observer.next(response.body);
@@ -104,11 +112,13 @@ export class RequestService {
         });
     }
 
-    addOrder(options){
+    // Send order
+    addOrder(options) {
         return this.http.post(this.apiUrlAddOrder, options)
     }
 
-    getOrders(){
+    // Get orders from order table
+    getOrders() {
         const request = this.http.get(this.apiUrlGetOrders + '?token=' + this.authService.userToken, {observe: 'response'});
         return new Observable(observer => {
             request.subscribe(response => {
@@ -118,7 +128,8 @@ export class RequestService {
         });
     }
 
-    getOrder(id){
+    // Get single order from order table
+    getOrder(id) {
         const request = this.http.get(this.apiUrlGetOrders + '/' + id, {observe: 'response'});
         return new Observable(observer => {
             request.subscribe(response => {
@@ -126,9 +137,5 @@ export class RequestService {
                 observer.complete();
             });
         });
-    }
-
-    setCartProducts(item: any) {
-        localStorage.setItem('cartProducts', item);
     }
 }

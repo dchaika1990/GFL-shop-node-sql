@@ -8,6 +8,9 @@ import {FlashMessagesService} from "angular2-flash-messages";
     providedIn: 'root'
 })
 export class AuthGuardService implements CanActivate {
+    /*
+        service for transferring to the router module, whether the user is logged in
+     */
 
     constructor(
         public auth: AuthService,

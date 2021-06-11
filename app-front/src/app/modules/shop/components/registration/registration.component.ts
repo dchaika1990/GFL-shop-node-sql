@@ -35,7 +35,7 @@ export class RegistrationComponent implements OnInit {
         this.authService.sendRegisterRequest(this.registerForm.value).subscribe(
             (res) => {
                 this.authService.setCookie('token', res, {});
-                this.authService.isAuth = true;
+                this.authService.setAuth(true);
                 this.authService.router.navigate([''])
             },
             (err) => {

@@ -18,7 +18,7 @@ export class RequestService {
     apiUrlCartGet = this.proxyServ + 'api/cart/get';
     apiUrlInfoForCheckout = this.proxyServ + 'api/order/checkout';
     apiUrlAddOrder = this.proxyServ + 'api/order/add';
-    apiUrlGetOrders = this.proxyServ + 'api/order/get';
+    apiUrlGetOrders = this.proxyServ + 'api/order';
     products: Product[] = [];
     categories: Category[] = [];
     cartProducts: CartItem[] = [];

@@ -2,7 +2,7 @@
     <div class="cow">
         <div class="col-12" *ngIf="!loading">
             <h2 class="mb-4">Thank you for your order</h2>
-            <h4 class="mb-3">Order #{{order['id_order']}}</h4>
+            <h4 class="mb-3">Order #{{orderInfo['id_order']}}</h4>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <tbody>
@@ -12,43 +12,43 @@
                     </tr>
                     <tr>
                         <th>Order Date</th>
-                        <td>{{order['date_of_order'] | date:'medium'}}</td>
+                        <td>{{orderInfo['date_of_order'] | date:'medium'}}</td>
                     </tr>
                     <tr>
                         <th>Full Price</th>
-                        <td>{{order['order_full_price']}}$</td>
+                        <td>{{orderInfo['order_full_price']}}$</td>
                     </tr>
                     <tr>
                         <th>Order Status</th>
-                        <td>{{order['name_order_status']}}</td>
+                        <td>{{orderInfo['name_order_status']}}</td>
                     </tr>
                     <tr>
                         <th>Country</th>
-                        <td>{{order['country']}}</td>
+                        <td>{{orderInfo['country']}}</td>
                     </tr>
                     <tr>
                         <th>State</th>
-                        <td>{{order['state']}}</td>
+                        <td>{{orderInfo['state']}}</td>
                     </tr>
                     <tr>
                         <th>City</th>
-                        <td>{{order['city']}}</td>
+                        <td>{{orderInfo['city']}}</td>
                     </tr>
                     <tr>
                         <th>Delivery address</th>
-                        <td>{{order['delivery_address']}}</td>
+                        <td>{{orderInfo['delivery_address']}}</td>
                     </tr>
                     <tr>
                         <th>Delivery</th>
-                        <td>{{order['name_delivery']}}</td>
+                        <td>{{orderInfo['name_delivery']}}</td>
                     </tr>
                     <tr>
                         <th>Payment</th>
-                        <td>{{order['name_payment_method']}}</td>
+                        <td>{{orderInfo['name_payment_method']}}</td>
                     </tr>
                     <tr>
                         <th>Comments</th>
-                        <td>{{order['order_comments']}}</td>
+                        <td>{{orderInfo['order_comments']}}</td>
                     </tr>
                     </tbody>
                 </table>

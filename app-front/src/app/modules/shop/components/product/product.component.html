@@ -1,6 +1,6 @@
 <div class="container my-5" *ngIf="!loading">
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-4 mb-3">
             <img src="{{proxy + productInfo['image_name'].split(',')[0]}}" alt="product.product_name">
         </div>
         <div class="col-lg-8">
@@ -21,7 +21,7 @@
             <hr>
             <div class="meta-options">
                 <div *ngIf="productOptions['id_type']">
-                    <h4>Types</h4>
+                    <h5>Types</h5>
                     <ul>
                         <li
                             *ngFor="let type of productOptions['id_type'].split(','); let i = index"
@@ -34,7 +34,7 @@
                     </ul>
                 </div>
                 <div *ngIf="productOptions['id_color']">
-                    <h4>Colors</h4>
+                    <h5>Colors</h5>
                     <ul class="meta-colors">
                         <li
                             *ngFor="let color of productOptions['id_color'].split(','); let i = index"
@@ -48,7 +48,7 @@
                     </ul>
                 </div>
                 <div *ngIf="productOptions['id_size']">
-                    <h4>Size</h4>
+                    <h5>Sizes</h5>
                     <ul>
                         <li
                             *ngFor="let size of productOptions['id_size'].split(','); let i = index"
@@ -62,7 +62,7 @@
                 </div>
             </div>
             <hr>
-            <p class="price mt-3">Price: {{productInfo['product_price']}}$</p>
+            <h4 class="price mt-3">Price: {{productInfo['product_price']}}$</h4>
             <div class="d-flex align-items-center">
                 <input
                     class="form-control mr-3 number-product"

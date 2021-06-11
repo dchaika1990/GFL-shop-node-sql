@@ -11,7 +11,7 @@ import {FlashMessagesService} from "angular2-flash-messages";
     styleUrls: ['./order-info.component.sass']
 })
 export class OrderInfoComponent implements OnInit {
-    order: {} = {};
+    orderInfo: {} = {};
     loading = true;
     id: string = '';
     userName: string = '';
@@ -30,9 +30,10 @@ export class OrderInfoComponent implements OnInit {
         });
         this.requestService.getOrder(this.id).subscribe(
             res => {
-                this.order = (res as Order)
+                this.orderInfo = (res['orderInfo'] as Order)
                 this.loading = false;
                 this.userName = this.authService.userInfo[1]
+                console.log(this.orderInfo)
             },
             error => {
                 this.flashMessage.show(error.error.message, {

@@ -35,7 +35,6 @@ class CartModel {
 					);
 				}
 			} else {
-				console.log()
 				DB.query(
 					"INSERT INTO cart VALUES (NULL, ?, ?, ?, ?, ?)",
 					[id_user, id_product, id_options, product_count, product_sum],

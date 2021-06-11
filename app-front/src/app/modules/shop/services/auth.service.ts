@@ -11,7 +11,6 @@ export class AuthService {
     registerUrl = this.proxyServ + 'api/auth/registration';
     checkUrl = this.proxyServ + 'api/auth/check';
     isAuth: any = false;
-    errorMessage: any = '';
 
     constructor(private http: HttpClient, public router: Router) {
     }
@@ -22,14 +21,6 @@ export class AuthService {
 
     get userToken() {
         return this.getCookie('token') ? this.getCookie('token') : ''
-    }
-
-    get errorMsg() {
-        return this.errorMessage
-    }
-
-    setError(err){
-        this.errorMessage = err
     }
 
     setAuth(data){

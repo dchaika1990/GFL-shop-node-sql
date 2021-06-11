@@ -24,7 +24,6 @@ class UserController {
 		userModel.login(user_login,user_password, result => {
 			const {success, msg} = result;
 			if (!success){
-				console.log(msg);
 				return next(ApiError.badRequest(msg))
 			}
 			res.json(msg)

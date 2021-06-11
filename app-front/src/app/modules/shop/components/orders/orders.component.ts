@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthService} from "../../services/auth.service";
 import {RequestService} from "../../services/request.service";
 import {Order} from "../../interfaces/order";
 import {FlashMessagesService} from "angular2-flash-messages";
-import {AuthService} from "../../services/auth.service";
 
 @Component({
     selector: 'app-orders',

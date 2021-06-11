@@ -60,7 +60,7 @@ export class CheckoutComponent implements OnInit {
                     cssClass: 'alert-success',
                     timeout: 4000
                 });
-                this.router.navigate(['orders'])
+                this.router.navigate(['order'])
             },
             error => {
                 console.log(error)

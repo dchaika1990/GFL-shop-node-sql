@@ -23,12 +23,17 @@ const routes: Routes = [
         path: '', children: [
             {path: '', component: ShopComponent},
             {path: 'product/:id', component: ProductComponent},
-            {path: 'login', component: LoginComponent},
             {path: 'register', component: RegistrationComponent},
+            {path: 'login', component: LoginComponent},
             {path: 'cart', component: CartComponent, canActivate: [AuthGuardService]},
             {path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuardService]},
-            {path: 'orders', component: OrdersComponent, canActivate: [AuthGuardService]},
-            {path: 'orders/:id', component: OrderInfoComponent, canActivate: [AuthGuardService]},
+            {path: 'order',
+                children: [
+                    {path: '', component: OrdersComponent},
+                    {path: ':id', component: OrderInfoComponent},
+                ],
+                canActivate: [AuthGuardService]
+            }
         ]
     }
 ];

@@ -33,6 +33,7 @@ class UserController {
 
 	isValidUser(req, res) {
 		const {user_token} = req.body
+		console.log(user_token)
 		userModel.isValidToken(user_token || '', isValid => {
 			res.json(isValid)
 		});

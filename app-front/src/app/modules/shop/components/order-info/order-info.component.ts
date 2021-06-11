@@ -24,7 +24,6 @@ export class OrderInfoComponent implements OnInit {
         });
         this.requestService.getOrder(this.id).subscribe(
             res => {
-                console.log(res)
                 this.order = (res as Order)
                 this.loading = false;
                 this.userName = this.authService.userInfo[1]

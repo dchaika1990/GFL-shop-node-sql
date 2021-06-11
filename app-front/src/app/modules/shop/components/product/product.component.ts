@@ -3,6 +3,7 @@ import {RequestService} from "../../services/request.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductSingleInfo, ProductSingleOptions} from "../../interfaces/productSingle";
 import {AuthService} from "../../services/auth.service";
+import {FlashMessagesService} from "angular2-flash-messages";
 
 @Component({
     selector: 'app-product',
@@ -19,9 +20,16 @@ export class ProductComponent implements OnInit {
     id_color: String = '';
     id_size: String = '';
     product_count: number = 0;
+    showGoToCart: boolean = false
 
 
-    constructor(private requestService: RequestService, private authService: AuthService, private router: Router, private activeRoute: ActivatedRoute) {
+    constructor(
+        private requestService: RequestService,
+        private authService: AuthService,
+        private router: Router,
+        private activeRoute: ActivatedRoute,
+        private flashMessage: FlashMessagesService,
+    ) {
     }
 
     ngOnInit(): void {
@@ -78,9 +86,18 @@ export class ProductComponent implements OnInit {
             }
             this.requestService.setProductToCart(options).subscribe(
                 (res) =>{
-                    this.router.navigate(['cart'])
+                    this.flashMessage.show('Product added to cart', {
+                        cssClass: 'alert-success',
+                        timeout: 4000
+                    });
+                    this.showGoToCart = true;
                 },
-                (error) =>{console.log('error', error)}
+                (error) =>{
+                    this.flashMessage.show(error.error.message, {
+                        cssClass: 'alert-danger',
+                        timeout: 4000
+                    });
+                }
             )
         } else {
             this.router.navigate(['login'])

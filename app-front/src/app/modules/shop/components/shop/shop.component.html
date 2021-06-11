@@ -3,7 +3,7 @@
         <div class="col-12">
             <app-filter-category (renderProductsByCategory)="renderProductsByCategory($event)"></app-filter-category>
         </div>
-        <div class="col-4" *ngFor="let product of products">
+        <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let product of products">
             <div class="card mt-5 text-center">
                 <img *ngIf="product.image_name.length" src="{{proxy + product.image_name.split(',')[0]}}" alt="product.product_name">
                 <img *ngIf="!product.image_name.length" src="{{proxy}}/placeholder.png" alt="product.product_name">

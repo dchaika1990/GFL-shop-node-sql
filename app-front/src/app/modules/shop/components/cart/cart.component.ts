@@ -11,7 +11,9 @@ import {FlashMessagesService} from "angular2-flash-messages";
 })
 export class CartComponent implements OnInit {
     cartProducts: CartItem[] = [];
+    options: {} = {};
     loading = true;
+
     constructor(
         private requestService: RequestService,
         private authService: AuthService,
@@ -20,17 +22,24 @@ export class CartComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (this.authService.userToken) {
-            this.requestService.loadCartProducts().subscribe(items => {
+        console.log('Cart isAuthenticated ', this.authService.isAuthenticated())
+        this.requestService.loadCartProducts().subscribe(
+            items => {
                 this.cartProducts = (items as CartItem[]);
                 this.loading = false;
-            })
-        }
+            },
+            error => {
+                this.flashMessage.show(error.error.message, {
+                    cssClass: 'alert-danger',
+                    timeout: 4000
+                });
+            }
+        )
     }
 
     removeProductFromCart(i) {
         this.cartProducts[i].product_count--;
-        const options = {
+        this.options = {
             'id_user': this.cartProducts[i].id_user,
             'id_product': this.cartProducts[i].id_product,
             'id_options': this.cartProducts[i].id_options,
@@ -44,9 +53,14 @@ export class CartComponent implements OnInit {
                 timeout: 4000
             });
         }
-        this.requestService.setProductToCart(options).subscribe(
-            (res) =>{},
-            (error) =>{
+        this.requestService.setProductToCart(this.options).subscribe(
+            (res) => {
+                this.flashMessage.show('You have removed a product', {
+                    cssClass: 'alert-success',
+                    timeout: 4000
+                });
+            },
+            (error) => {
                 this.flashMessage.show(error.error.message, {
                     cssClass: 'alert-danger',
                     timeout: 4000
@@ -57,16 +71,21 @@ export class CartComponent implements OnInit {
 
     addProductToCart(i) {
         this.cartProducts[i].product_count++;
-        const options = {
+        this.options = {
             'id_user': this.cartProducts[i].id_user,
             'id_product': this.cartProducts[i].id_product,
             'id_options': this.cartProducts[i].id_options,
             'product_count': 1,
-            'product_sum': (this.cartProducts[i].product_price * this.cartProducts[i].product_count ).toFixed(2),
+            'product_sum': (this.cartProducts[i].product_price * this.cartProducts[i].product_count).toFixed(2),
         }
-        this.requestService.setProductToCart(options).subscribe(
-            (res) =>{},
-            (error) =>{
+        this.requestService.setProductToCart(this.options).subscribe(
+            (res) => {
+                this.flashMessage.show('You have added a product', {
+                    cssClass: 'alert-success',
+                    timeout: 4000
+                });
+            },
+            (error) => {
                 this.flashMessage.show(error.error.message, {
                     cssClass: 'alert-danger',
                     timeout: 4000

@@ -6,7 +6,6 @@ import {CartComponent} from './components/cart/cart.component';
 import {CheckoutComponent} from './components/checkout/checkout.component';
 import {ThanksComponent} from './components/thanks/thanks.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {HttpClientModule} from '@angular/common/http';
 import {RequestService} from './services/request.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FilterCategoryComponent} from './components/filter-category/filter-category.component';
@@ -17,7 +16,7 @@ import {RegistrationComponent} from './components/registration/registration.comp
 import {ProductComponent} from './components/product/product.component';
 import {OrdersComponent} from './components/orders/orders.component';
 import {OrderInfoComponent} from './components/order-info/order-info.component';
-import {ErrorComponent} from './components/error/error.component';
+
 
 const routes: Routes = [
     {
@@ -46,19 +45,16 @@ const routes: Routes = [
         ProductComponent,
         OrdersComponent,
         OrderInfoComponent,
-        ErrorComponent
     ],
     imports: [
         CommonModule,
         RouterModule.forRoot(routes),
         NgbModule,
-        HttpClientModule,
         ReactiveFormsModule,
         FormsModule,
     ],
     exports: [
         RouterModule,
-        ErrorComponent
     ],
     providers: [
         RequestService,

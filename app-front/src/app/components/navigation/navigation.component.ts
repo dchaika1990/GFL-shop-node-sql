@@ -12,7 +12,12 @@ export class NavigationComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this.authService.isAuthenticated())
+        this.authService.checkToken().subscribe(
+            res => {
+                this.authService.setAuth(res)
+                console.log('Navigator isAuthenticated ', this.authService.isAuthenticated())
+            }
+        )
     }
 
     logout(){

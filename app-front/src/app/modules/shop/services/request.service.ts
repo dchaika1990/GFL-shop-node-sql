@@ -23,6 +23,9 @@ export class RequestService {
     categories: Category[] = [];
     cartProducts: CartItem[] = [];
     product: {} = {}
+    productsCount: number = 0;
+    pageNumber: number = 1;
+    limit = 8;
 
     constructor(private http: HttpClient, private authService: AuthService) {
     }
@@ -33,12 +36,35 @@ export class RequestService {
     }
 
     // Load all products
-    loadProducts() {
-        const request = this.http.get(this.apiUrl, {observe: 'response'});
+    loadProducts(pageNumber: number = 1) {
+        this.pageNumber = pageNumber;
+        let start = (pageNumber - 1) * this.limit;
+        let url = `${this.apiUrl}/?_limit=${this.limit}&_start=${start}`;
+        const request = this.http.get(url, {observe: 'response'});
+
         return new Observable(observer => {
             request.subscribe(response => {
-                this.products = (response.body as Product[]);
-                observer.next(response.body);
+                let totalCount = response.body['total-count'];
+                this.productsCount = Number(totalCount);
+                this.products = (response.body['products'] as Product[]);
+                observer.next(response.body['products']);
+                observer.complete();
+            });
+        });
+    }
+
+    // Load all products by category
+    loadProductsByCategories(id: String, pageNumber: number = 1) {
+        this.pageNumber = pageNumber;
+        let start = (pageNumber - 1) * this.limit;
+        let url = `${this.apiUrl}/?categoryId=${id}&_limit=${this.limit}&_start=${start}`;
+        const request = this.http.get(url, {observe: 'response'});
+        return new Observable(observer => {
+            request.subscribe(response => {
+                this.products = (response.body['products'] as Product[]);
+                let totalCount = response.body['total-count'];
+                this.productsCount = Number(totalCount);
+                observer.next(response.body['products']);
                 observer.complete();
             });
         });
@@ -51,18 +77,6 @@ export class RequestService {
         if (color) query += `color=${color}&`;
         if (size) query += `size=${size}`;
         const request = this.http.get(this.apiUrlProduct + '/' + id + query, {observe: 'response'});
-        return new Observable(observer => {
-            request.subscribe(response => {
-                this.products = (response.body as Product[]);
-                observer.next(response.body);
-                observer.complete();
-            });
-        });
-    }
-
-    // Load all products by category
-    loadProductsByCategories(id: String) {
-        const request = this.http.get(this.apiUrl + '?categoryId=' + id, {observe: 'response'});
         return new Observable(observer => {
             request.subscribe(response => {
                 this.products = (response.body as Product[]);

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Product} from '../../interfaces/product';
 import {RequestService} from '../../services/request.service';
+import {Router, ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'app-shop',
@@ -10,20 +11,30 @@ import {RequestService} from '../../services/request.service';
 export class ShopComponent implements OnInit {
     products: Product[] = [];
     loading = true;
-    cartProducts: Product[] = [];
-    proxy: String = this.requestService.proxyServ
+    proxy: String = this.requestService.proxyServ;
+    pageNumValue = 1;
+    pageLimit = 0;
 
-    constructor(private requestService: RequestService) {
+    constructor(
+        private requestService: RequestService,
+        private router: Router,
+        private activeRoute: ActivatedRoute
+    ) {
     }
 
     ngOnInit(): void {
-        this.requestService.loadProducts().subscribe((products) => {
-            this.products = (products as Product[]);
-            this.loading = false;
-        });
+        this.activeRoute.params.subscribe(params => {
+            this.pageNum = params.id || 1;
+            this.requestService.loadProducts(this.pageNum).subscribe((products) => {
+                this.products = (products as Product[]);
+                this.pageLimit = this.requestService.limit;
+                this.loading = false;
+                console.log(this.productsCount)
+            });
+        })
     }
 
-    renderProductsByCategory(id: String){
+    renderProductsByCategory(id: String) {
         if (id) {
             this.requestService.loadProductsByCategories(id).subscribe((products) => {
                 this.products = (products as Product[]);
@@ -35,5 +46,18 @@ export class ShopComponent implements OnInit {
                 this.loading = false;
             });
         }
+    }
+
+    get pageNum() {
+        return this.pageNumValue;
+    }
+
+    set pageNum(value) {
+        this.pageNumValue = value;
+        this.router.navigate(['page', value]);
+    }
+
+    get productsCount() {
+        return this.requestService.productsCount;
     }
 }

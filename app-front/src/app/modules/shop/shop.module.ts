@@ -22,6 +22,7 @@ const routes: Routes = [
     {
         path: '', children: [
             {path: '', component: ShopComponent},
+            {path: 'page/:id', component: ShopComponent},
             {path: 'product/:id', component: ProductComponent},
             {path: 'register', component: RegistrationComponent},
             {path: 'login', component: LoginComponent},

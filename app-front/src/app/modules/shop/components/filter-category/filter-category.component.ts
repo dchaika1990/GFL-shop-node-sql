@@ -10,11 +10,11 @@ import {RequestService} from "../../services/request.service";
 export class FilterCategoryComponent implements OnInit {
     categories: Category[] = [];
     loading = true;
-    selectedIndex: number = null;
+    selectedIndex: string = this.requestService.categoryId;
 
     @Output() renderProductsByCategory = new EventEmitter()
 
-    constructor(private requestService:RequestService) {
+    constructor(private requestService: RequestService) {
     }
 
     ngOnInit(): void {
@@ -24,8 +24,8 @@ export class FilterCategoryComponent implements OnInit {
         })
     }
 
-    renderProducts(i: number = null, id = null){
-        this.selectedIndex = i
+    renderProducts(i: number = null, id = null) {
+        this.selectedIndex = id
         this.renderProductsByCategory.emit(id)
     }
 

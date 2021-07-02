@@ -3,6 +3,14 @@
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap'
 
+*
+    outline: none
+
+    &:hover,
+    &:focus,
+    &:active
+        outline: none
+
 .flash-messages
     position: fixed
     right: 0
@@ -15,3 +23,28 @@
 
 .ng-invalid.ng-touched
     border-color: red
+
+a
+    color: #000000
+    transition: all .3s ease-in-out
+
+    &:hover
+        text-decoration: none
+        opacity: .6
+
+.pagination
+    .page-item
+        .page-link
+            color: #000000
+            padding: 8px 14px
+
+        &.active,
+        &:hover:not(.disabled)
+            .page-link
+                background-color: #28a745
+                border-color: #28a745
+                color: #ffffff
+                opacity: 1
+
+        &:not(:last-child)
+            margin-right: 10px

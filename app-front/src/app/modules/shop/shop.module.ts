@@ -16,6 +16,7 @@ import {RegistrationComponent} from './components/registration/registration.comp
 import {ProductComponent} from './components/product/product.component';
 import {OrdersComponent} from './components/orders/orders.component';
 import {OrderInfoComponent} from './components/order-info/order-info.component';
+import { ProductsCategoryComponent } from './components/products-category/products-category.component';
 
 
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
             {path: '', component: ShopComponent},
             {path: 'page/:id', component: ShopComponent},
             {path: 'product/:id', component: ProductComponent},
+            {path: 'categories/:id', component: ProductsCategoryComponent},
             {path: 'register', component: RegistrationComponent},
             {path: 'login', component: LoginComponent},
             {path: 'cart', component: CartComponent, canActivate: [AuthGuardService]},
@@ -51,6 +53,7 @@ const routes: Routes = [
         ProductComponent,
         OrdersComponent,
         OrderInfoComponent,
+        ProductsCategoryComponent,
     ],
     imports: [
         CommonModule,

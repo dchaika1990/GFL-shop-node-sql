@@ -1,0 +1,26 @@
+<div class="container my-5" *ngIf="!loading">
+    <div class="row">
+        <div class="col-12">
+            <app-filter-category (renderProductsByCategory)="renderProductsByCategory($event)"></app-filter-category>
+        </div>
+        <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let product of products">
+            <div class="card mt-5 text-center">
+                <img *ngIf="product.image_name.length" src="{{proxy + product.image_name.split(',')[0]}}" alt="product.product_name">
+                <img *ngIf="!product.image_name.length" src="{{proxy}}/placeholder.png" alt="product.product_name">
+                <h4 class="card-header">
+                    <a routerLink="/product/{{product.id_product}}">
+                        {{ product.product_name }}
+                    </a>
+                </h4>
+                <div class="card-body">
+                    <p class="card-text font-weight-bold">Price: {{ product.product_price }}$</p>
+                    <p class="card-text">{{ product.product_description.slice(0, 70) }}...</p>
+                    <button
+                        class="btn btn-success"
+                        routerLink="/product/{{product.id_product}}"
+                    >Show product</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

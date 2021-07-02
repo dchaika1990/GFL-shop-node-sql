@@ -26,6 +26,7 @@ export class RequestService {
     productsCount: number = 0;
     pageNumber: number = 1;
     limit = 8;
+    _categoryId: string = null;
 
     constructor(private http: HttpClient, private authService: AuthService) {
     }
@@ -55,9 +56,7 @@ export class RequestService {
 
     // Load all products by category
     loadProductsByCategories(id: String, pageNumber: number = 1) {
-        this.pageNumber = pageNumber;
-        let start = (pageNumber - 1) * this.limit;
-        let url = `${this.apiUrl}/?categoryId=${id}&_limit=${this.limit}&_start=${start}`;
+        let url = `${this.apiUrl}/?categoryId=${id}`;
         const request = this.http.get(url, {observe: 'response'});
         return new Observable(observer => {
             request.subscribe(response => {
@@ -151,5 +150,13 @@ export class RequestService {
                 observer.complete();
             });
         });
+    }
+
+    set categoryId(id: string) {
+        this._categoryId = id;
+    }
+
+    get categoryId() {
+        return this._categoryId;
     }
 }

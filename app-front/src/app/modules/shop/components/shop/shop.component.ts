@@ -29,22 +29,15 @@ export class ShopComponent implements OnInit {
                 this.products = (products as Product[]);
                 this.pageLimit = this.requestService.limit;
                 this.loading = false;
-                console.log(this.productsCount)
+                this.requestService.categoryId = null;
             });
         })
     }
 
-    renderProductsByCategory(id: String) {
+    renderProductsByCategory(id) {
         if (id) {
-            this.requestService.loadProductsByCategories(id).subscribe((products) => {
-                this.products = (products as Product[]);
-                this.loading = false;
-            });
-        } else {
-            this.requestService.loadProducts().subscribe((products) => {
-                this.products = (products as Product[]);
-                this.loading = false;
-            });
+            this.requestService.categoryId = id;
+            this.router.navigate(['categories', id]);
         }
     }
 

@@ -8,6 +8,8 @@ import {AuthService} from "../../modules/shop/services/auth.service";
 })
 export class NavigationComponent implements OnInit {
 
+    public isMenuCollapsed = true;
+
     constructor(public authService: AuthService) {
     }
 
@@ -22,5 +24,4 @@ export class NavigationComponent implements OnInit {
     logout(){
         this.authService.logOut();
     }
-
 }

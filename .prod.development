@@ -1,0 +1,6 @@
+TYPE=production
+PORT=81
+USER=root
+PASSWORD=Tgbvfr54321@
+DATABASE=shop_angular
+HOST=localhost

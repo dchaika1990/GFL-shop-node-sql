@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "env-cmd -f ./.prod.development nodemon ./index.js",
     "server": "env-cmd -f ./.env.development nodemon ./index.js",
     "client": "npm run start --prefix app-front",
+    "client:install": "npm install --prefix app-front",
+    "client:build": "npm run build --prefix app-front",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],

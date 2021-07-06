@@ -14,16 +14,17 @@ app.use(cors())
 app.use(urlencodedParser);
 app.use(cookieParser())
 app.use(bodyParser.json())
-app.use(express.static(path.resolve(__dirname, 'static')));
-
-app.use('/api', routers)
 
 if (TYPE === 'production') {
-	app.use('/', express.static(path.join(__dirname, 'dist', 'front')));
-
+	app.use('/angular-shop/api', routers)
+	app.use('/angular-shop/', express.static(path.join(__dirname, 'static')));
+	app.use('/angular-shop/', express.static(path.join(__dirname, 'dist', 'front')));
 	app.get('*', (req, res) => {
 		res.sendFile(path.resolve(__dirname, 'dist', 'front', 'index.html'))
 	})
+} else {
+	app.use('/api', routers);
+	app.use(express.static(path.resolve(__dirname, 'static')));
 }
 
 app.use(errorHandler);
